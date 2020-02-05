@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  database:
+    image: mysql:5.6
+    volumes:
+      - database_data:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=scoach"
+      - "MYSQL_USER=scoach"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+      - "3306:3306"
+
+  api:
+    build: .
+    volumes:
+      - ./api:/usr/src/app/api:cached
+    ports:
+      - 3000:3000
+    links:
+      - database
+    working_dir: /usr/src/app/api
+    tty: true
+    command: bash -c "yarn && yarn start:dev"
+
+  front:
+    build: .
+    volumes:
+      - ./front:/usr/src/app/front:cached
+    ports:
+      - 8080:8080
+    working_dir: /usr/src/app/front
+    tty: true
+    command: bash -c "yarn && yarn start"
+
+volumes:
+  database_data:
