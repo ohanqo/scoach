@@ -1,9 +1,9 @@
 {
     "type": "mysql",
-    "host": "localhost",
+    "host": "database",
     "port": 3306,
-    "username": "root",
-    "password": "",
+    "username": "scoach",
+    "password": "secret",
     "database": "scoach",
     "entities": ["dist/**/*.entity{.ts,.js}"],
     "synchronize": true

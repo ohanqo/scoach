@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "./user.entity";
@@ -10,11 +10,19 @@ export class UserService {
         private readonly userRepository: Repository<User>,
     ) {}
 
-    public save(user: User): Promise<User> {
-        return this.userRepository.save(user);
+    public async save(user: User): Promise<User> {
+        try {
+            return await this.userRepository.save(user);
+        } catch (error) {
+            throw new HttpException("Conflict", HttpStatus.CONFLICT);
+        }
     }
 
     public findAll(): Promise<User[]> {
         return this.userRepository.find();
+    }
+
+    public findOneByEmail(email: string): Promise<User> {
+        return this.userRepository.findOne({ email });
     }
 }

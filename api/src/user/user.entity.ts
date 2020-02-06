@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, Index } from "typeorm";
+import { Exclude } from "class-transformer";
+import { IsEmail, IsEnum, MinLength } from "class-validator";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 export enum Role {
     CUSTOMER = "CUSTOMER",
@@ -11,16 +13,20 @@ export class User {
     id: number;
 
     @Column()
+    @IsEmail()
     @Index({ unique: true })
     email: string;
 
     @Column()
-    password: string
+    @MinLength(6)
+    @Exclude({ toPlainOnly: true })
+    password: string;
 
     @Column({
         type: "enum",
         enum: Role,
         default: Role.CUSTOMER,
     })
+    @IsEnum(Role)
     role: Role;
 }

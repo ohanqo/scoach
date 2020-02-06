@@ -8,8 +8,8 @@ services:
     environment:
       - "MYSQL_DATABASE=scoach"
       - "MYSQL_USER=scoach"
-      - "MYSQL_PASSWORD=secret"
-      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_PASSWORD="
+      - "MYSQL_ROOT_PASSWORD="
     ports:
       - "3306:3306"
 
