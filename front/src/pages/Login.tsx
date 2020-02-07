@@ -22,7 +22,7 @@ const Login: React.FC = () => {
             localStorage.setItem("access_token", access_token);
             dispatch({ type: TYPES.SET_USER, payload: user });
         } catch (error) {
-            
+            // TODO: error
         }
 
         setIsLoading(false);
