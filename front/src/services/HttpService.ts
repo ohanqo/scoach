@@ -5,6 +5,7 @@ export const HTTP = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
+    transformRequest: [(data, _) => JSON.stringify(data)],
 });
 
 export const AUTH_HTTP = axios.create({
@@ -18,7 +19,11 @@ export const AUTH_HTTP = axios.create({
                 "access_token",
             )}`;
 
-            return data;
+            if (data instanceof FormData) {
+                return data;
+            } else {
+                return JSON.stringify(data);
+            }
         },
     ],
 });

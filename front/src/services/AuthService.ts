@@ -1,8 +1,8 @@
 import LoginRequest from "../dtos/LoginRequest";
 import LoginResponse from "../dtos/LoginResponse";
-import User from "../models/User";
-import { AUTH_HTTP } from "./HttpService";
 import RegisterRequest from "../dtos/RegisterRequest";
+import User from "../models/User";
+import { HTTP } from "./HttpService";
 
 export default class AuthService {
     private static instance: AuthService;
@@ -19,19 +19,13 @@ export default class AuthService {
         password: string,
     ): Promise<LoginResponse> {
         const payload: LoginRequest = { email, password };
-        const response = await AUTH_HTTP.post<LoginResponse>(
-            "login",
-            JSON.stringify(payload),
-        );
+        const response = await HTTP.post<LoginResponse>("login", payload);
 
         return response.data;
     }
 
     public async register(user: RegisterRequest) {
-        const response = await AUTH_HTTP.post<User>(
-            "register",
-            JSON.stringify(user),
-        );
+        const response = await HTTP.post<User>("register", user);
 
         return response.data;
     }
