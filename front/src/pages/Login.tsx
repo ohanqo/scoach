@@ -1,19 +1,49 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import AuthService from "../services/AuthService";
 import { StoreContext } from "../store/context";
 import TYPES from "../store/types";
 
 const Login: React.FC = () => {
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const history = useHistory();
+    const { dispatch } = useContext(StoreContext);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const login = async () => {
+        setIsLoading(true);
+
+        try {
+            const {
+                user,
+                access_token,
+            } = await AuthService.getInstance().login(email, password);
+            localStorage.setItem("access_token", access_token);
+            dispatch({ type: TYPES.SET_USER, payload: user });
+        } catch (error) {
+            
+        }
+
+        setIsLoading(false);
+    };
 
     return (
         <div>
-            Coucou depuis le router: {state.count}
-            <button onClick={() => dispatch({ type: TYPES.INCREMENT })}>
-                Ajouter depuis dispatch
+            <input
+                type="email"
+                placeholder="email"
+                onChange={e => setEmail(e.target.value)}
+            />
+            <input
+                type="password"
+                placeholder="password"
+                onChange={e => setPassword(e.target.value)}
+            />
+            <button disabled={isLoading} onClick={() => login()}>
+                Connect
             </button>
-            <button onClick={() => actions.fetchCoach()}>
-                Ajouter depuis action
-            </button>
+            <button onClick={() => history.push("/register")}>Register</button>
         </div>
     );
 };

@@ -1,7 +1,9 @@
+import User from "../models/User";
+
 export interface State {
-    count: number;
+    user?: User;
 }
 
 export const initialState: State = {
-    count: 0,
+    user: undefined,
 };

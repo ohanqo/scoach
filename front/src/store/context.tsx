@@ -1,28 +1,22 @@
-import React, { Context, createContext, useReducer } from "react";
-import { Actions, useActions } from "./actions";
+import React, { createContext, useReducer } from "react";
 import { Mutation, reducer } from "./reducers";
 import { initialState, State } from "./state";
 
-interface StateWithActions {
+interface StoreContext {
     state: State;
-    actions: Actions;
     dispatch: React.Dispatch<Mutation>;
 }
 
-let StoreContext: Context<StateWithActions>;
+let StoreContext = createContext<StoreContext>({
+    state: initialState,
+    dispatch: () => {},
+});
 
 const StoreProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const actions = useActions(state, dispatch);
-
-    StoreContext = createContext<StateWithActions>({
-        state: initialState,
-        actions,
-        dispatch,
-    });
 
     return (
-        <StoreContext.Provider value={{ state, actions, dispatch }}>
+        <StoreContext.Provider value={{ state, dispatch }}>
             {children}
         </StoreContext.Provider>
     );

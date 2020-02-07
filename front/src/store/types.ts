@@ -1,5 +1,5 @@
 const TYPES = {
-    INCREMENT: Symbol("INCREMENT"),
+    SET_USER: Symbol("SET_USER"),
 };
 
 export default TYPES;

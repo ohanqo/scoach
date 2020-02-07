@@ -7,9 +7,8 @@ export interface Mutation {
 }
 export const reducer = (state: State, mutation: Mutation): State => {
     switch (mutation.type) {
-        case TYPES.INCREMENT:
-            let { count } = state;
-            return { ...state, count: count += 1 };
+        case TYPES.SET_USER:
+            return { ...state, user: mutation.payload };
         default:
             return state;
     }
