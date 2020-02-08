@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import pubsub from "sweet-pubsub";
+import { Snackbar, Status } from "../components/SnackbarComponent";
 import AuthService from "../services/AuthService";
 import { StoreContext } from "../store/context";
 import TYPES from "../store/types";
@@ -44,6 +46,21 @@ const Login: React.FC = () => {
                 Connect
             </button>
             <button onClick={() => history.push("/register")}>Register</button>
+
+            <div
+                className="bg-blue-400"
+                onClick={() => {
+                    const snack: Snackbar = {
+                        title: "I'm the title",
+                        message: "The field %s is required",
+                        duration: 2,
+                        status: Status.ERROR,
+                    };
+                    pubsub.emit("snackbar", snack);
+                }}
+            >
+                Snackbar
+            </div>
         </div>
     );
 };
