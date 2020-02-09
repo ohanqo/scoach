@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
-import pubsub from "sweet-pubsub";
-import { Snackbar, Status } from "../components/SnackbarComponent";
 import AuthService from "../services/AuthService";
 import { StoreContext } from "../store/context";
 import TYPES from "../store/types";
@@ -31,37 +29,40 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div>
-            <input
-                type="email"
-                placeholder="email"
-                onChange={e => setEmail(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="password"
-                onChange={e => setPassword(e.target.value)}
-            />
-            <button disabled={isLoading} onClick={() => login()}>
-                Connect
-            </button>
-            <button onClick={() => history.push("/register")}>Register</button>
+        <main className="w-screen h-screen py-4">
+            <div className="h-full flex flex-col mx-8 justify-around">
+                <header className="w-full text-center pt-8 pb-8">
+                    <h2 className="antialiased text-4xl uppercase tracking-tight font-extrabold">
+                        scoach
+                    </h2>
+                </header>
 
-            <div
-                className="bg-blue-400"
-                onClick={() => {
-                    const snack: Snackbar = {
-                        title: "I'm the title",
-                        message: "The field %s is required",
-                        duration: 2,
-                        status: Status.ERROR,
-                    };
-                    pubsub.emit("snackbar", snack);
-                }}
-            >
-                Snackbar
+                <form>
+                    <input
+                        className="input focus:outline-none focus:bg-white focus:border-green-500 mb-4"
+                        type="email"
+                        placeholder="email"
+                        onChange={e => setEmail(e.target.value)}
+                    />
+
+                    <input
+                        className="input focus:outline-none focus:bg-white focus:border-green-500 mb-8"
+                        type="password"
+                        placeholder="password"
+                        onChange={e => setPassword(e.target.value)}
+                    />
+
+                    <button className="bg-green-500 w-full rounded px-4 py-2 text-white focus:outline-none mb-2">
+                        Sign In
+                    </button>
+
+                    <span className="text-gray-600 block text-center text-sm">
+                        Does not have an account? Register{" "}
+                        <span className="text-green-500">here</span>
+                    </span>
+                </form>
             </div>
-        </div>
+        </main>
     );
 };
 
