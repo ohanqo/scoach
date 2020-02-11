@@ -3618,6 +3618,10 @@ video {
   flex: none;
 }
 
+.flex-parent {
+  flex: 0 0 100%;
+}
+
 .flex-grow-0 {
   flex-grow: 0;
 }
@@ -11040,7 +11044,7 @@ body {
   line-height: 1.25;
   background-color: transparent;
   border-bottom-width: 1px;
-  border-color: #edf2f7;
+  border-color: #718096;
 }
 
 @media (min-width: 640px) {
@@ -14054,6 +14058,10 @@ body {
 
   .sm\:flex-none {
     flex: none;
+  }
+
+  .sm\:flex-parent {
+    flex: 0 0 100%;
   }
 
   .sm\:flex-grow-0 {
@@ -24432,6 +24440,10 @@ body {
     flex: none;
   }
 
+  .md\:flex-parent {
+    flex: 0 0 100%;
+  }
+
   .md\:flex-grow-0 {
     flex-grow: 0;
   }
@@ -34808,6 +34820,10 @@ body {
     flex: none;
   }
 
+  .lg\:flex-parent {
+    flex: 0 0 100%;
+  }
+
   .lg\:flex-grow-0 {
     flex-grow: 0;
   }
@@ -45182,6 +45198,10 @@ body {
 
   .xl\:flex-none {
     flex: none;
+  }
+
+  .xl\:flex-parent {
+    flex: 0 0 100%;
   }
 
   .xl\:flex-grow-0 {

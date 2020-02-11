@@ -40,5 +40,5 @@ body {
 }
 
 .input {
-    @apply appearance-none w-full py-2 leading-tight bg-transparent border-b border-gray-200;
+    @apply appearance-none w-full py-2 leading-tight bg-transparent border-b border-gray-600;
 }
