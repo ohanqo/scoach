@@ -14,7 +14,7 @@ let StoreContext = createContext<StoreContext>({
 
 const StoreProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const [state, dispatch] = useReducer(reducer, initialState);
-
+    
     return (
         <StoreContext.Provider value={{ state, dispatch }}>
             {children}
