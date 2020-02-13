@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import RegisterRequest from "../dtos/RegisterRequest";
-import { Role } from "../models/User";
-import AuthService from "../services/AuthService";
+import RegisterRequest from "./dto/RegisterRequest";
+import { Role } from "../../shared/models/User";
+import AuthService from "../AuthService";
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState("");

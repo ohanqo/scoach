@@ -1,8 +1,8 @@
-import LoginRequest from "../dtos/LoginRequest";
-import LoginResponse from "../dtos/LoginResponse";
-import RegisterRequest from "../dtos/RegisterRequest";
-import User from "../models/User";
-import { HTTP } from "./HttpService";
+import LoginRequest from "./Login/dto/LoginRequest";
+import LoginResponse from "./Login/dto/LoginResponse";
+import RegisterRequest from "./Register/dto/RegisterRequest";
+import User from "../shared/models/User";
+import { HTTP } from "../shared/http";
 
 export default class AuthService {
     private static instance: AuthService;

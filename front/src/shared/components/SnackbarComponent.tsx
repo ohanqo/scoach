@@ -45,15 +45,15 @@ const SnackbarComponent: React.FC = () => {
             {snackbar && (
                 <div
                     id="snackbar"
-                    className={`p-4 rounded shadow ${
+                    className={`p-4 text-white rounded shadow ${
                         snackbar.status === Status.ERROR
                             ? "bg-red-500"
                             : "bg-green-500"
                     }`}
                 >
-                    <div className="mb-1 font-medium">{snackbar.title}</div>
+                    <div className="font-medium">{snackbar.title}</div>
                     {snackbar.message && (
-                        <div className="text-sm">{snackbar.message}</div>
+                        <div className="mt-1 text-sm">{snackbar.message}</div>
                     )}
                 </div>
             )}

@@ -2,12 +2,16 @@ import {
     Body,
     ClassSerializerInterceptor,
     Controller,
+    Get,
     HttpException,
     HttpStatus,
     Post,
+    Request,
+    UseGuards,
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { User } from "src/user/user.entity";
 import { UserService } from "src/user/user.service";
 import { AuthService } from "./auth.service";
@@ -32,7 +36,10 @@ export class AuthController {
         if (this.areCredentialsCorrect(password, user)) {
             return await this.sendLoginResponse(user);
         } else {
-            throw new HttpException("Not Authorized", HttpStatus.UNAUTHORIZED);
+            throw new HttpException(
+                "Wrong credentials",
+                HttpStatus.UNAUTHORIZED,
+            );
         }
     }
 
@@ -45,6 +52,13 @@ export class AuthController {
         user.password = hashedPassword;
         await this.userService.save(user);
         return user;
+    }
+
+    @Get("/me")
+    @UseGuards(AuthGuard("jwt"))
+    @UseInterceptors(ClassSerializerInterceptor)
+    async me(@Request() request: any) {
+        return request.user;
     }
 
     private areCredentialsCorrect(

@@ -1,4 +1,4 @@
-import { Role } from "../models/User";
+import { Role } from "../../../shared/models/User";
 
 export default interface RegisterRequest {
     email: string;

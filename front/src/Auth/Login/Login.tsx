@@ -1,10 +1,12 @@
 import gsap from "gsap";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import AuthService from "../services/AuthService";
-import { StoreContext } from "../store/context";
-import TYPES from "../store/types";
-import { isEmail } from "../utils/email";
+import AuthService from "../AuthService";
+import { StoreContext } from "../../shared/store/context";
+import TYPES from "../../shared/store/types";
+import { isEmail } from "../../shared/utils/validations";
+import snackbar from "../../shared/utils/snackbar";
+import { LS_TOKEN_KEY } from "../../shared/constants";
 
 const Login: React.FC = () => {
     const history = useHistory();
@@ -26,10 +28,12 @@ const Login: React.FC = () => {
                 user,
                 access_token,
             } = await AuthService.getInstance().login(email, password);
-            localStorage.setItem("access_token", access_token);
+            localStorage.setItem(LS_TOKEN_KEY, access_token);
             dispatch({ type: TYPES.SET_USER, payload: user });
+            history.replace("/");
         } catch (error) {
-            // TODO: error
+            console.log(error);
+            snackbar.error(error.message);
         }
 
         setIsLoading(false);
@@ -66,6 +70,24 @@ const Login: React.FC = () => {
         }
     }, [isShowingPassword]);
 
+    const handleEmailKeyUp = (event: any) => {
+        event.preventDefault();
+        event.stopPropagation();
+        event.nativeEvent.stopImmediatePropagation();
+        if (event.key === "Enter" && isEmailValid && !isShowingPassword) {
+            setIsShowingPassword(true);
+        }
+    };
+
+    const handlePasswordKeyUp = (event: any) => {
+        event.preventDefault();
+        event.stopPropagation();
+        event.nativeEvent.stopImmediatePropagation();
+        if (event.key === "Enter" && isPasswordValid && isShowingPassword) {
+            login();
+        }
+    };
+
     return (
         <main className="w-screen h-screen py-4">
             <div className="h-full flex flex-col mx-16 justify-around">
@@ -89,6 +111,10 @@ const Login: React.FC = () => {
                             placeholder="email address"
                             key="email"
                             onChange={e => setEmail(e.target.value)}
+                            onKeyUp={(event: any) => handleEmailKeyUp(event)}
+                            onKeyDown={(event: any) =>
+                                event.which === 9 && event.preventDefault()
+                            }
                             ref={emailRef}
                             autoFocus
                         />
@@ -103,11 +129,16 @@ const Login: React.FC = () => {
                                 placeholder="password"
                                 key="password"
                                 onChange={e => setPassword(e.target.value)}
+                                onKeyUp={(event: any) => {
+                                    handlePasswordKeyUp(event);
+                                }}
                                 ref={passwordRef}
                             />
                             <button
+                                type="button"
                                 className="whitespace-no-wrap text-sm text-gray-200 focus:outline-none"
                                 onClick={e => {
+                                    console.log("button");
                                     e.preventDefault();
                                     setIsShowingPassword(false);
                                 }}
@@ -119,20 +150,26 @@ const Login: React.FC = () => {
 
                     {isShowingPassword ? (
                         <button
-                            disabled={!isPasswordValid}
-                            className="block duration-500 ease-in-out capitalize text-gray-200 text-xl px-4 py-2 rounded-lg bg-primary-400 disabled:opacity-25 mb-16 w-full opacity-100 transition-all transform hover:-translate-y-1 focus:outline-none"
+                            type="button"
+                            disabled={!isPasswordValid || isLoading}
+                            className="block duration-300 ease-in-out capitalize text-gray-200 text-xl px-4 py-2 rounded-lg bg-primary-400 disabled:opacity-25 mb-16 w-full opacity-100 transition-all transform hover:-translate-y-1 focus:outline-none"
                             key="emailButton"
                             onClick={e => {
                                 e.preventDefault();
-                                // call
+                                login();
                             }}
                         >
-                            Let's go
+                            {isLoading ? (
+                                <i className="fas fa-circle-notch fa-spin" />
+                            ) : (
+                                "Let's go"
+                            )}
                         </button>
                     ) : (
                         <button
+                            type="button"
                             disabled={!isEmailValid}
-                            className="block duration-500 ease-in-out capitalize text-gray-200 text-xl px-4 py-2 rounded-lg bg-primary-400 disabled:opacity-25 mb-16 w-full opacity-100 transition-all transform hover:-translate-y-1 focus:outline-none"
+                            className="block duration-300 ease-in-out capitalize text-gray-200 text-xl px-4 py-2 rounded-lg bg-primary-400 disabled:opacity-25 mb-16 w-full opacity-100 transition-all transform hover:-translate-y-1 focus:outline-none"
                             key="emailButton"
                             onClick={e => {
                                 e.preventDefault();
@@ -145,7 +182,13 @@ const Login: React.FC = () => {
 
                     <span className="text-gray-600 block text-center text-sm">
                         Does not have an account? Register
-                        <span className="text-white"> here</span>
+                        <span
+                            className="text-white cursor-pointer"
+                            onClick={() => history.push("/register")}
+                        >
+                            {" "}
+                            here
+                        </span>
                     </span>
                 </form>
             </div>

@@ -1,8 +1,8 @@
 import React from "react";
-import { SnackbarComponent } from "./components/SnackbarComponent";
+import { SnackbarComponent } from "../shared/components/SnackbarComponent";
+import { StoreProvider } from "../shared/store/context";
+import "./index.css";
 import Routes from "./Routes";
-import { StoreProvider } from "./store/context";
-
 const App: React.FC = () => {
     return (
         <StoreProvider>

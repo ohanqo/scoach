@@ -1,10 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import { Route, Router, Switch } from "react-router-dom";
+import Login from "../Auth/Login/Login";
+import Register from "../Auth/Register/Register";
+import router from "../shared/router";
 
 const Routes: React.FC = () => (
-    <Router>
+    <Router history={router}>
         <Switch>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
