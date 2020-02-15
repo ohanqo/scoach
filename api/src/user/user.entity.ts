@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { IsEmail, IsEnum, MinLength } from "class-validator";
+import { IsEmail, IsEnum, IsString, MinLength } from "class-validator";
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 export enum Role {
@@ -16,6 +16,10 @@ export class User {
     @IsEmail()
     @Index({ unique: true })
     email: string;
+
+    @Column()
+    @IsString()
+    name: string;
 
     @Column()
     @MinLength(6)

@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { LS_TOKEN_KEY, SHARED_ERROR_INVALID_TOKEN } from "./constants";
+import HttpErrorFactory from "./errors/http/HttpErrorFactory";
 import router from "./router";
 import snackbar from "./utils/snackbar";
 
@@ -13,7 +14,7 @@ export const HTTP = axios.create({
 
 HTTP.interceptors.response.use(
     response => response,
-    error => Promise.reject(error.response.data ?? error.response),
+    error => Promise.reject(HttpErrorFactory(error)),
 );
 
 export const AUTH_HTTP = axios.create({
@@ -37,7 +38,7 @@ export const AUTH_HTTP = axios.create({
 
 AUTH_HTTP.interceptors.response.use(
     response => response,
-    error => handleAuthError(error),
+    error => Promise.reject(handleAuthError(error)),
 );
 
 const handleAuthError = (error: AxiosError) => {
@@ -47,5 +48,5 @@ const handleAuthError = (error: AxiosError) => {
         snackbar.error(SHARED_ERROR_INVALID_TOKEN);
     }
 
-    return error;
+    return HttpErrorFactory(error);
 };

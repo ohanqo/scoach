@@ -14,7 +14,10 @@ export class UserService {
         try {
             return await this.userRepository.save(user);
         } catch (error) {
-            throw new HttpException("Conflict", HttpStatus.CONFLICT);
+            throw new HttpException(
+                "Mail is already registered",
+                HttpStatus.CONFLICT,
+            );
         }
     }
 
