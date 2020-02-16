@@ -1,12 +1,12 @@
 import gsap from "gsap";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import AuthService from "../AuthService";
+import { LS_TOKEN_KEY } from "../../shared/constants";
+import { httpWrapper } from "../../shared/http";
 import { StoreContext } from "../../shared/store/context";
 import TYPES from "../../shared/store/types";
 import { isEmail } from "../../shared/utils/validations";
-import snackbar from "../../shared/utils/snackbar";
-import { LS_TOKEN_KEY } from "../../shared/constants";
+import AuthService from "../AuthService";
 
 const Login: React.FC = () => {
     const history = useHistory();
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
     const login = async () => {
         setIsLoading(true);
 
-        try {
+        httpWrapper(async () => {
             const {
                 user,
                 access_token,
@@ -31,10 +31,7 @@ const Login: React.FC = () => {
             localStorage.setItem(LS_TOKEN_KEY, access_token);
             dispatch({ type: TYPES.SET_USER, payload: user });
             history.replace("/");
-        } catch (error) {
-            console.log(error);
-            snackbar.error(error.message);
-        }
+        });
 
         setIsLoading(false);
     };

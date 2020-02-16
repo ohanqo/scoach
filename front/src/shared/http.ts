@@ -1,5 +1,10 @@
 import axios, { AxiosError } from "axios";
-import { LS_TOKEN_KEY, SHARED_ERROR_INVALID_TOKEN } from "./constants";
+import {
+    ERROR_DEFAULT_MESSAGE,
+    LS_TOKEN_KEY,
+    SHARED_ERROR_INVALID_TOKEN,
+} from "./constants";
+import HttpError from "./errors/http/AbstractHttpError";
 import HttpErrorFactory from "./errors/http/HttpErrorFactory";
 import router from "./router";
 import snackbar from "./utils/snackbar";
@@ -50,3 +55,17 @@ const handleAuthError = (error: AxiosError) => {
 
     return HttpErrorFactory(error);
 };
+
+export async function httpWrapper(fun: () => void) {
+    try {
+        return await fun()
+    } catch (error) {
+        console.warn(error);
+
+        if (error instanceof HttpError) {
+            snackbar.error(error.message);
+        } else {
+            snackbar.error(ERROR_DEFAULT_MESSAGE);
+        }
+    }
+}

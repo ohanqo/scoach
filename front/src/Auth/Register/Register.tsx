@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { SUCCESS_REGISTER_MESSAGE } from "../../shared/constants";
+import { httpWrapper } from "../../shared/http";
 import { Role } from "../../shared/models/User";
+import router from "../../shared/router";
+import snackbar from "../../shared/utils/snackbar";
 import { isEmail } from "../../shared/utils/validations";
 import AuthService from "../AuthService";
 import RegisterRequest from "./dto/RegisterRequest";
-import HttpError from "../../shared/errors/http/AbstractHttpError";
-import snackbar from "../../shared/utils/snackbar";
 
 const Register: React.FC = () => {
     const [name, setName] = useState("");
@@ -22,14 +24,12 @@ const Register: React.FC = () => {
     const register = async () => {
         setIsLoading(true);
 
-        try {
+        httpWrapper(async () => {
             const payload: RegisterRequest = { name, email, password, role };
             await AuthService.getInstance().register(payload);
-        } catch (error) {
-            if (error instanceof HttpError) {
-                snackbar.error(error.message)
-            }
-        }
+            router.replace("/login");
+            snackbar.success(SUCCESS_REGISTER_MESSAGE);
+        });
 
         setIsLoading(false);
     };
@@ -43,7 +43,9 @@ const Register: React.FC = () => {
     }, [email]);
 
     useEffect(() => {
-        setIsPasswordValid(password === passwordValidation);
+        const isPasswordValid =
+            password === passwordValidation && password.length > 5;
+        setIsPasswordValid(isPasswordValid);
     }, [password, passwordValidation]);
 
     useEffect(() => {
