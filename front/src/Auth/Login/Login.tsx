@@ -47,11 +47,15 @@ const Login: React.FC = () => {
     useEffect(() => {
         if (isShowingPassword) {
             gsap.timeline()
-                .to("#email", { xPercent: "-100", opacity: "0" }, ".25")
+                .to(
+                    "#email",
+                    { xPercent: "-100", opacity: "0", ease: "power3.inOut" },
+                    ".25",
+                )
                 .fromTo(
                     "#password",
                     { opacity: "0" },
-                    { xPercent: "-100", opacity: "100%" },
+                    { xPercent: "-100", opacity: "100%", ease: "power3.inOut" },
                     "-=.20",
                 )
                 .then(() => {
@@ -59,8 +63,16 @@ const Login: React.FC = () => {
                 });
         } else {
             gsap.timeline()
-                .to("#password", { xPercent: "100", opacity: "0" }, ".25")
-                .to("#email", { xPercent: "0", opacity: "100%" }, "-=.20")
+                .to(
+                    "#password",
+                    { xPercent: "100", opacity: "0", ease: "power3.inOut" },
+                    ".25",
+                )
+                .to(
+                    "#email",
+                    { xPercent: "0", opacity: "100%", ease: "power3.inOut" },
+                    "-=.20",
+                )
                 .then(() => {
                     (emailRef as any)?.current?.focus();
                 });
@@ -135,7 +147,6 @@ const Login: React.FC = () => {
                                 type="button"
                                 className="whitespace-no-wrap text-sm text-gray-200 focus:outline-none"
                                 onClick={e => {
-                                    console.log("button");
                                     e.preventDefault();
                                     setIsShowingPassword(false);
                                 }}

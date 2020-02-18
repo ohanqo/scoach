@@ -11,7 +11,7 @@ const NavbarComponent: React.FC = () => {
         return (
             <a
                 href="#responsive-header"
-                className="no-underline text-lg block mt-4 sm:inline-block sm:mt-0 text-gray-300 mx-5 z-10"
+                className="no-underline text-lg block mt-4 sm:inline-block sm:mt-0 text-gray-300 mr-10"
             >
                 {children}
             </a>

@@ -4,6 +4,7 @@ import Login from "../Auth/Login/Login";
 import Register from "../Auth/Register/Register";
 import NavbarComponent from "../shared/components/NavbarComponent";
 import router from "../shared/router";
+import Guard from "./Guard";
 
 const Routes: React.FC = () => (
     <Router history={router}>
@@ -12,7 +13,9 @@ const Routes: React.FC = () => (
             <Route path="/login" component={Login} />
         </Switch>
 
-        <Route path="/" component={NavbarComponent} />
+        <Guard>
+            <Route path="/" component={NavbarComponent} />
+        </Guard>
     </Router>
 );
 
