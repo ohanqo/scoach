@@ -1,6 +1,13 @@
 import { Exclude } from "class-transformer";
 import { IsEmail, IsEnum, IsString, MinLength } from "class-validator";
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Report } from "src/report/report.entity";
+import {
+    Column,
+    Entity,
+    Index,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from "typeorm";
 
 export enum Role {
     CUSTOMER = "CUSTOMER",
@@ -33,4 +40,11 @@ export class User {
     })
     @IsEnum(Role)
     role: Role;
+
+    @OneToMany(
+        type => Report,
+        report => report.user,
+        { cascade: true },
+    )
+    reports: Report[];
 }
