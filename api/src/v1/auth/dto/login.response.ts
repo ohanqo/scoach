@@ -1,4 +1,4 @@
-import { User } from "src/user/user.entity";
+import { User } from "src/v1/user/user.entity";
 
 export default class LoginResponseDTO {
     access_token = "";

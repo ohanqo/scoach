@@ -1,6 +1,6 @@
 import { Transform } from "class-transformer";
 import { IsNumber, IsString } from "class-validator";
-import { User } from "src/user/user.entity";
+import { User } from "src/v1/user/user.entity";
 import {
     Column,
     Double,

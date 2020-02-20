@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { IsEmail, IsEnum, IsString, MinLength } from "class-validator";
-import { Report } from "src/report/report.entity";
+import { Report } from "src/v1/report/report.entity";
 import {
     Column,
     Entity,

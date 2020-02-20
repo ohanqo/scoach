@@ -2,6 +2,11 @@ import {
     Body,
     ClassSerializerInterceptor,
     Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
     Post,
     Request,
     UseGuards,
@@ -12,10 +17,15 @@ import { AuthGuard } from "@nestjs/passport";
 import { Report } from "./report.entity";
 import { ReportService } from "./report.service";
 
-@Controller("reports")
+@Controller("reports/")
 @UseGuards(AuthGuard("jwt"))
 export class ReportController {
     constructor(private readonly reportService: ReportService) {}
+
+    @Get()
+    public async index() {
+        return await this.reportService.findAll();
+    }
 
     @Post()
     @UseInterceptors(ClassSerializerInterceptor)
@@ -27,5 +37,12 @@ export class ReportController {
         report.date = Date.now();
         await this.reportService.save(report);
         return report;
+    }
+
+    @Delete(":id")
+    @HttpCode(HttpStatus.NO_CONTENT)
+    public async delete(@Param("id") id: number) {
+        await this.reportService.delete(id);
+        return;
     }
 }
