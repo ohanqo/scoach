@@ -5,6 +5,7 @@ import { AuthModule } from "./auth/auth.module";
 import { ReportModule } from "./report/report.module";
 import { templatesPath } from "./template/template.utils";
 import { UserModule } from "./user/user.module";
+import { ValidatorModule } from './validator/validator.module';
 
 @Module({
     imports: [
@@ -36,6 +37,7 @@ import { UserModule } from "./user/user.module";
         UserModule,
         AuthModule,
         ReportModule,
+        ValidatorModule,
     ],
 })
 export class AppModule {}

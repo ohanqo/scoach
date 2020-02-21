@@ -57,4 +57,8 @@ export class User {
         inverseJoinColumn: { name: "customer" },
     })
     customers: User[];
+
+    public isCoach(): boolean {
+        return this.role === Role.COACH
+    }
 }

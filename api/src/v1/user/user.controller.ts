@@ -4,6 +4,8 @@ import {
     ClassSerializerInterceptor,
     Controller,
     Get,
+    HttpException,
+    HttpStatus,
     Post,
     Request,
     UseGuards,
@@ -38,19 +40,27 @@ export class UserController {
         const customer = request.user as User;
         const coach = await this.userService.findOneById(coachId);
 
-        // checker que c'est bien un coach
+        // if (!coach.isCoach()) {
+        //     throw new HttpException()
+        // }
 
-        await this.mailerService.sendMail({
-            to: coach.email,
-            subject: "Scoach — New request for coaching",
-            template: "request_for_coaching",
-            context: {
-                coachName: coach.name,
-                customerName: customer.name,
-                customerMessage: message,
-            },
-        });
-
-        return `${coach.name} has been notified!`;
+        try {
+            await this.mailerService.sendMail({
+                to: coach.email,
+                subject: "Scoach — New request for coaching",
+                template: "request_for_coaching",
+                context: {
+                    coachName: coach.name,
+                    customerName: customer.name,
+                    customerMessage: message,
+                },
+            });
+            return `${coach.name} has been notified!`;
+        } catch (error) {
+            throw new HttpException(
+                "Mail service unavailable",
+                HttpStatus.SERVICE_UNAVAILABLE,
+            );
+        }
     }
 }
