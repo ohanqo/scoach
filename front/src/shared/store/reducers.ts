@@ -5,6 +5,7 @@ export interface Mutation {
     type: Symbol;
     payload?: any;
 }
+
 export const reducer = (state: State, mutation: Mutation): State => {
     switch (mutation.type) {
         case TYPES.SET_USER:

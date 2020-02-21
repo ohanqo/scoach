@@ -5,6 +5,8 @@ import {
     Column,
     Entity,
     Index,
+    JoinTable,
+    ManyToMany,
     OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm";
@@ -47,4 +49,12 @@ export class User {
         { cascade: true },
     )
     reports: Report[];
+
+    @ManyToMany(type => User)
+    @JoinTable({
+        name: "coach_customers",
+        joinColumn: { name: "coach" },
+        inverseJoinColumn: { name: "customer" },
+    })
+    customers: User[];
 }
