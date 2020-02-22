@@ -22,7 +22,7 @@ export class Report {
     @IsString()
     comment: string;
 
-    @Column({ type: "bigint" })
+    @Column({ type: "bigint", default: () => Math.floor(Date.now() / 1000) })
     date: number;
 
     @ManyToOne(

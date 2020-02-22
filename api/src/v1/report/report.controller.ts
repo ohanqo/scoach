@@ -35,7 +35,6 @@ export class ReportController {
         @Body(new ValidationPipe({ transform: true })) report: Report,
     ): Promise<Report> {
         report.user = user;
-        report.date = Date.now();
         await this.reportService.save(report);
         return report;
     }

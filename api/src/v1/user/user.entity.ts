@@ -10,6 +10,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm";
+import { Assignment } from "../assignment/assignment.entity";
 
 export enum Role {
     CUSTOMER = "CUSTOMER",
@@ -58,7 +59,19 @@ export class User {
     })
     customers: User[];
 
+    @OneToMany(
+        type => Assignment,
+        assignment => assignment.coach,
+    )
+    coachAssignments: Assignment[];
+
+    @OneToMany(
+        type => Assignment,
+        assignment => assignment.customer,
+    )
+    customerAssignments: Assignment[];
+
     public isCoach(): boolean {
-        return this.role === Role.COACH
+        return this.role === Role.COACH;
     }
 }
