@@ -1,11 +1,13 @@
 import { HandlebarsAdapter, MailerModule } from "@nest-modules/mailer";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AssignmentModule } from "./assignment/assignment.module";
 import { AuthModule } from "./auth/auth.module";
 import { ReportModule } from "./report/report.module";
 import { templatesPath } from "./template/template.utils";
 import { UserModule } from "./user/user.module";
-import { ValidatorModule } from './validator/validator.module';
+import { ValidatorModule } from "./validator/validator.module";
+import { GuardModule } from './guard/guard.module';
 
 @Module({
     imports: [
@@ -38,6 +40,8 @@ import { ValidatorModule } from './validator/validator.module';
         AuthModule,
         ReportModule,
         ValidatorModule,
+        AssignmentModule,
+        GuardModule,
     ],
 })
 export class AppModule {}

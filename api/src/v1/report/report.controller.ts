@@ -8,12 +8,13 @@ import {
     HttpStatus,
     Param,
     Post,
-    Request,
     UseGuards,
     UseInterceptors,
     ValidationPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { RequestUser } from "../user/user.decorator";
+import { User } from "../user/user.entity";
 import { Report } from "./report.entity";
 import { ReportService } from "./report.service";
 
@@ -30,10 +31,10 @@ export class ReportController {
     @Post()
     @UseInterceptors(ClassSerializerInterceptor)
     public async create(
-        @Request() request: any,
+        @RequestUser() user: User,
         @Body(new ValidationPipe({ transform: true })) report: Report,
     ): Promise<Report> {
-        report.user = request.user;
+        report.user = user;
         report.date = Date.now();
         await this.reportService.save(report);
         return report;

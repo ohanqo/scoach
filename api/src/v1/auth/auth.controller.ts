@@ -6,7 +6,6 @@ import {
     HttpException,
     HttpStatus,
     Post,
-    Request,
     UseGuards,
     UseInterceptors,
     ValidationPipe,
@@ -14,6 +13,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { User } from "src/v1/user/user.entity";
 import { UserService } from "src/v1/user/user.service";
+import { RequestUser } from "../user/user.decorator";
 import { AuthService } from "./auth.service";
 import LoginRequestDTO from "./dto/login.request";
 import LoginResponseDTO from "./dto/login.response";
@@ -57,8 +57,8 @@ export class AuthController {
     @Get("/me")
     @UseGuards(AuthGuard("jwt"))
     @UseInterceptors(ClassSerializerInterceptor)
-    async me(@Request() request: any) {
-        return request.user;
+    async me(@RequestUser() user: User) {
+        return user;
     }
 
     private areCredentialsCorrect(

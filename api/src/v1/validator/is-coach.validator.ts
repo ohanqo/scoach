@@ -25,10 +25,14 @@ export class IsCoachConstraint implements ValidatorConstraintInterface {
 
 export function IsCoach(validationOptions?: ValidationOptions) {
     return function(object: Object, propertyName: string) {
+        const defaultOptions: ValidationOptions = {
+            message: "The user needs to be a coach",
+        };
+
         registerDecorator({
             target: object.constructor,
             propertyName: propertyName,
-            options: validationOptions,
+            options: validationOptions ?? defaultOptions,
             constraints: [],
             validator: IsCoachConstraint,
         });
