@@ -5,6 +5,8 @@ import {
     Get,
     HttpException,
     HttpStatus,
+    Param,
+    Patch,
     Post,
     UseGuards,
 } from "@nestjs/common";
@@ -16,10 +18,10 @@ import { Role, User } from "../user/user.entity";
 import { UserService } from "../user/user.service";
 import { Assignment } from "./assignment.entity";
 import { AssignmentService } from "./assignment.service";
-import AssignmentDTO from "./dto/assignment";
+import AnswerCoachingRequest from "./dto/answer-coaching.request";
 import CoachingRequest from "./dto/coaching.request";
 
-@Controller("assignments")
+@Controller("assignments/")
 @UseGuards(AuthGuard("jwt"), RolesGuard)
 export class AssignmentController {
     public constructor(
@@ -40,9 +42,22 @@ export class AssignmentController {
         @Body() { message, coachId }: CoachingRequest,
     ) {
         const coach = await this.userService.findOneById(coachId);
-        await this.sendCoachingRequestMail(customer, coach, message);
-        await this.saveCoachingRequest(customer, coach);
-        return `${coach.name} has been notified!`;
+        await this.sendCoachingRequestMail(customer, coach!, message);
+        await this.saveCoachingRequest(customer, coach!);
+        return `${coach!.name} has been notified!`;
+    }
+
+    @Patch(":assignmentId")
+    @RoleGuard(Role.COACH)
+    public async update(
+        @Param("assignmentId") assignmentId: number,
+        @Body() { answer }: AnswerCoachingRequest,
+    ) {
+        const newProperties: Partial<Assignment> = {
+            status: answer,
+        };
+
+        await this.assignmentService.update(assignmentId, newProperties);
     }
 
     private async sendCoachingRequestMail(
@@ -72,7 +87,7 @@ export class AssignmentController {
     }
 
     private async saveCoachingRequest(customer: User, coach: User) {
-        const assignment: AssignmentDTO = {
+        const assignment: Partial<Assignment> = {
             coach,
             customer,
         };

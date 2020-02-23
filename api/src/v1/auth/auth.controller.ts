@@ -34,7 +34,7 @@ export class AuthController {
         const user = await this.userService.findOneByEmail(email);
 
         if (this.areCredentialsCorrect(password, user)) {
-            return await this.sendLoginResponse(user);
+            return await this.sendLoginResponse(user!);
         } else {
             throw new HttpException(
                 "Wrong credentials",
@@ -65,10 +65,11 @@ export class AuthController {
         requestPassword: string,
         user?: User,
     ): boolean {
-        return (
+        const arePasswordMatching =
             user &&
-            this.authService.comparePassword(requestPassword, user.password)
-        );
+            this.authService.comparePassword(requestPassword, user.password);
+
+        return arePasswordMatching ?? false;
     }
 
     private async sendLoginResponse(user: User): Promise<LoginResponseDTO> {

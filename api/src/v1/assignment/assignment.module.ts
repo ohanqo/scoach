@@ -1,14 +1,20 @@
 import { Module } from "@nestjs/common";
-import { UserModule } from "../user/user.module";
-import { AssignmentController } from "./assignment.controller";
-import { AssignmentService } from "./assignment.service";
-import { GuardModule } from "../guard/guard.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { GuardModule } from "../guard/guard.module";
+import { User } from "../user/user.entity";
+import { UserModule } from "../user/user.module";
+import { IsCustomerConstraint } from "../validator/is-customer.validator";
+import { AssignmentController } from "./assignment.controller";
 import { Assignment } from "./assignment.entity";
+import { AssignmentService } from "./assignment.service";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Assignment]), UserModule, GuardModule],
-    providers: [AssignmentService],
+    imports: [
+        TypeOrmModule.forFeature([Assignment, User]),
+        UserModule,
+        GuardModule,
+    ],
+    providers: [AssignmentService, IsCustomerConstraint],
     controllers: [AssignmentController],
 })
 export class AssignmentModule {}

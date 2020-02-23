@@ -1,9 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "../user/user.entity";
 import { Assignment } from "./assignment.entity";
-import AssignmentDTO from "./dto/assignment";
 
 @Injectable()
 export class AssignmentService {
@@ -20,7 +19,25 @@ export class AssignmentService {
         });
     }
 
-    public async save(assignment: AssignmentDTO) {
+    public async findOne(id: number): Promise<Assignment | undefined> {
+        return await this.assignmentRepository.findOne(id);
+    }
+
+    public async update(id: number, newProperties: Partial<Assignment>) {
+        const assignment = await this.findOne(id);
+
+        if (assignment) {
+            Object.assign(assignment, newProperties);
+            await this.assignmentRepository.save(assignment);
+        } else {
+            throw new HttpException(
+                "The assignment identifier provided does not exsits.",
+                HttpStatus.NOT_FOUND,
+            );
+        }
+    }
+
+    public async save(assignment: Partial<Assignment>) {
         return await this.assignmentRepository.save(assignment);
     }
 

@@ -74,4 +74,8 @@ export class User {
     public isCoach(): boolean {
         return this.role === Role.COACH;
     }
+
+    public isCustomer(): boolean {
+        return !this.isCoach();
+    }
 }

@@ -21,15 +21,15 @@ export class UserService {
         }
     }
 
-    public findAll(): Promise<User[]> {
-        return this.userRepository.find();
+    public async findAll(): Promise<User[]> {
+        return await this.userRepository.find();
     }
 
-    public findOneByEmail(email: string): Promise<User> {
-        return this.userRepository.findOne({ email });
+    public async findOneByEmail(email: string): Promise<User | undefined> {
+        return await this.userRepository.findOne({ email });
     }
 
-    public findOneById(id: number): Promise<User> {
-        return this.userRepository.findOne(id);
+    public async findOneById(id: number): Promise<User | undefined> {
+        return await this.userRepository.findOne(id);
     }
 }
