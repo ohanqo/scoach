@@ -35,6 +35,21 @@ export class AssignmentController {
         return await this.assignmentService.findAllForUser(user);
     }
 
+    @Get("confirmed")
+    public async getCoachList(
+        @RequestUser() user: User,
+    ): Promise<Assignment[]> {
+        let response: Assignment[] = [];
+
+        if (user.isCustomer()) {
+            response = await this.assignmentService.findAllCoach(user.id);
+        } else {
+            response = await this.assignmentService.findAllCustomer(user.id);
+        }
+
+        return response;
+    }
+
     @Post()
     @RoleGuard(Role.CUSTOMER)
     public async create(

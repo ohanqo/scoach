@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "../user/user.entity";
-import { Assignment } from "./assignment.entity";
+import { Assignment, AssignmentStatus } from "./assignment.entity";
 
 @Injectable()
 export class AssignmentService {
@@ -17,6 +17,28 @@ export class AssignmentService {
             relations: ["customer", "coach"],
             [relationTypeToLookFor]: user.id,
         });
+    }
+
+    public async findAllCoach(customerId: number): Promise<Assignment[]> {
+        return await this.assignmentRepository
+            .createQueryBuilder("assignment")
+            .leftJoinAndSelect("assignment.coach", "coach")
+            .where("assignment.customerId = :customerId", { customerId })
+            .andWhere("assignment.status = :status", {
+                status: AssignmentStatus.CONFIRMED,
+            })
+            .getMany();
+    }
+
+    public async findAllCustomer(coachId: number): Promise<Assignment[]> {
+        return await this.assignmentRepository
+            .createQueryBuilder("assignment")
+            .leftJoinAndSelect("assignment.customer", "customer")
+            .where("assignment.coachId = :coachId", { coachId })
+            .andWhere("assignment.status = :status", {
+                status: AssignmentStatus.CONFIRMED,
+            })
+            .getMany();
     }
 
     public async findOne(id: number): Promise<Assignment | undefined> {
