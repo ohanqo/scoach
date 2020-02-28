@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, UseGuards, ClassSerializerInterceptor, UseInterceptors } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { RequestUser } from "../user/user.decorator";
 import { User } from "../user/user.entity";
@@ -10,6 +10,7 @@ export class CourseController {
     constructor(private readonly courseService: CourseService) {}
 
     @Get()
+    @UseInterceptors(ClassSerializerInterceptor)
     public async index(@RequestUser() user: User) {
         return await this.courseService.findAllForUser(user);
     }
