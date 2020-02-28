@@ -11,6 +11,7 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { Assignment } from "../assignment/assignment.entity";
+import Course from "../course/course.entity";
 
 export enum Role {
     CUSTOMER = "CUSTOMER",

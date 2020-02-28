@@ -8,6 +8,7 @@ import { templatesPath } from "./template/template.utils";
 import { UserModule } from "./user/user.module";
 import { ValidatorModule } from "./validator/validator.module";
 import { GuardModule } from './guard/guard.module';
+import { CourseModule } from './course/course.module';
 
 @Module({
     imports: [
@@ -42,6 +43,7 @@ import { GuardModule } from './guard/guard.module';
         ValidatorModule,
         AssignmentModule,
         GuardModule,
+        CourseModule,
     ],
 })
 export class AppModule {}
