@@ -9,6 +9,9 @@ module.exports = {
                     "200": "#9995b9",
                     "400": "#6851ff",
                 },
+                secondary: {
+                    "400": "#242549",
+                },
                 violet: "#14072B",
             },
             fontFamily: {
@@ -28,6 +31,9 @@ module.exports = {
             },
         },
     },
-    variants: { opacity: ["responsive", "disabled"] },
+    variants: {
+        opacity: ["responsive", "disabled"],
+        margin: ["responsive", "last"],
+    },
     plugins: [],
 };
