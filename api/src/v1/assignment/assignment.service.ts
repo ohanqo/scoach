@@ -45,6 +45,17 @@ export class AssignmentService {
         return await this.assignmentRepository.findOne(id);
     }
 
+    public async findOneForCoachAndCustomer(
+        coachId: number,
+        customerId: number,
+    ): Promise<Assignment | undefined> {
+        return await this.assignmentRepository
+            .createQueryBuilder("assignment")
+            .where("assignment.coachId = :coachId", { coachId })
+            .andWhere("assignment.customerId = :customerId", { customerId })
+            .getOne();
+    }
+
     public async update(id: number, newProperties: Partial<Assignment>) {
         const assignment = await this.findOne(id);
 

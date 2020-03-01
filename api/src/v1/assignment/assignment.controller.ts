@@ -3,6 +3,7 @@ import {
     Body,
     Controller,
     Get,
+    HttpCode,
     HttpException,
     HttpStatus,
     Param,
@@ -21,7 +22,7 @@ import { AssignmentService } from "./assignment.service";
 import AnswerCoachingRequest from "./dto/answer-coaching.request";
 import CoachingRequest from "./dto/coaching.request";
 
-@Controller("assignments/")
+@Controller("assignments")
 @UseGuards(AuthGuard("jwt"), RolesGuard)
 export class AssignmentController {
     public constructor(
@@ -52,10 +53,12 @@ export class AssignmentController {
 
     @Post()
     @RoleGuard(Role.CUSTOMER)
+    @HttpCode(HttpStatus.CREATED)
     public async create(
         @RequestUser() customer: User,
         @Body() { message, coachId }: CoachingRequest,
     ) {
+        await this.checkIfAssignmentAlreadyExist(coachId, customer.id);
         const coach = await this.userService.findOneById(coachId);
         await this.sendCoachingRequestMail(customer, coach!, message);
         await this.saveCoachingRequest(customer, coach!);
@@ -108,5 +111,24 @@ export class AssignmentController {
         };
 
         await this.assignmentService.save(assignment);
+    }
+
+    private async checkIfAssignmentAlreadyExist(
+        coachId: number,
+        customerId: number,
+    ) {
+        const potentialAssignment = await this.assignmentService.findOneForCoachAndCustomer(
+            coachId,
+            customerId,
+        );
+
+        if (potentialAssignment) {
+            throw new HttpException(
+                "The assignment already exists.",
+                HttpStatus.CONFLICT,
+            );
+        }
+
+        return;
     }
 }

@@ -30,6 +30,7 @@ export class ReportController {
 
     @Post()
     @UseInterceptors(ClassSerializerInterceptor)
+    @HttpCode(HttpStatus.CREATED)
     public async create(
         @RequestUser() user: User,
         @Body(new ValidationPipe({ transform: true })) report: Report,

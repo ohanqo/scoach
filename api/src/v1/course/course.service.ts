@@ -24,4 +24,8 @@ export class CourseService {
             .leftJoinAndSelect("assignment.customer", "customer")
             .getMany();
     }
+
+    public async save(course: Course): Promise<Course> {
+        return await this.courseRepository.save(course);
+    }
 }

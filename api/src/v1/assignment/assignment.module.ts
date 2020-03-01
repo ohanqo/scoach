@@ -16,5 +16,6 @@ import { AssignmentService } from "./assignment.service";
     ],
     providers: [AssignmentService, IsCustomerConstraint],
     controllers: [AssignmentController],
+    exports: [AssignmentService]
 })
 export class AssignmentModule {}
