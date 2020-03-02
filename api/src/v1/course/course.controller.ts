@@ -6,6 +6,7 @@ import {
     HttpCode,
     HttpException,
     HttpStatus,
+    Param,
     Post,
     UseGuards,
     UseInterceptors,
@@ -33,6 +34,15 @@ export class CourseController {
     @UseInterceptors(ClassSerializerInterceptor)
     public async index(@RequestUser() user: User) {
         return await this.courseService.findAllForUser(user);
+    }
+
+    @Get(":limit")
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async indexPaginated(
+        @RequestUser() user: User,
+        @Param("limit") limit: number,
+    ) {
+        return await this.courseService.findAllForUser(user, limit);
     }
 
     @Post()

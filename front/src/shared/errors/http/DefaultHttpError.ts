@@ -12,9 +12,11 @@ export default class DefaultHttpError extends HttpError {
         if (this.axiosError.response?.data.error)
             this.error = this.axiosError.response.data.error;
 
-        if (this.hasValidationError()) {
+        if (typeof this.axiosError.response?.data.message === "string")
+            this.message = this.axiosError.response?.data.message;
+
+        if (this.hasValidationError())
             this.message = this.getFirstValidationErrorMessage() as string;
-        }
     }
 
     private hasValidationError() {

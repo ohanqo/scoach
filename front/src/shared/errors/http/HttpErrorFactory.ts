@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
+import HttpError from "./AbstractHttpError";
 import ConflictHttpError from "./ConflictHttpError";
 import DefaultHttpError from "./DefaultHttpError";
-import HttpError from "./AbstractHttpError";
 
 export default function HttpErrorFactory(error: AxiosError): HttpError {
     const statusCode = error.response?.status;

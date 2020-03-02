@@ -10,7 +10,7 @@ import AuthService from "../AuthService";
 
 const Login: React.FC = () => {
     const history = useHistory();
-    const { dispatch } = useContext(StoreContext);
+    const { dispatch, state } = useContext(StoreContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);

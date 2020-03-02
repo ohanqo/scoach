@@ -11,18 +11,26 @@ export class CourseService {
         private readonly courseRepository: Repository<Course>,
     ) {}
 
-    public async findAllForUser(user: User): Promise<Course[]> {
+    public async findAllForUser(
+        user: User,
+        potentialLimit?: number,
+    ): Promise<Course[]> {
         const assignmentRelation = user.isCoach()
             ? "assignment.coachId"
             : "assignment.customerId";
 
-        return await this.courseRepository
+        const request = this.courseRepository
             .createQueryBuilder("course")
             .leftJoinAndSelect("course.assignment", "assignment")
             .where(`${assignmentRelation} = :userId`, { userId: user.id })
             .leftJoinAndSelect("assignment.coach", "coach")
-            .leftJoinAndSelect("assignment.customer", "customer")
-            .getMany();
+            .leftJoinAndSelect("assignment.customer", "customer");
+
+        if (potentialLimit) {
+            request.limit(potentialLimit);
+        }
+
+        return await request.getMany();
     }
 
     public async save(course: Course): Promise<Course> {
