@@ -33,4 +33,30 @@
     unicode-range: U+000-5FF, U+20AC, U+2122;
 }
 
+@keyframes loading {
+    from {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+/* .loading-line {
+    height: 20px;
+} */
+.loading-line-animation {
+    animation: loading 2s infinite alternate;
+}
+.loading-line-animation--delay-1 {
+    animation-delay: 0.3s;
+}
+.loading-line-animation--delay-2 {
+    animation-delay: 0.6s;
+}
+
 @tailwind utilities;
