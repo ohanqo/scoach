@@ -2,9 +2,11 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import Coach from "../../Coach/Coach";
 import Course from "../../Course/Course";
+import CustomerList from "../../Customer/CustomerList/CustomerList";
 import EditProfile from "../../EditProfile/EditProfile";
 import Overview from "../../Overview/Overview";
 import { LS_TOKEN_KEY } from "../constants";
+import { Role } from "../models/User";
 import { StoreContext } from "../store/context";
 
 const NavbarComponent: React.FC = () => {
@@ -99,7 +101,11 @@ const NavbarComponent: React.FC = () => {
                     <div className="text-sm sm:mx-auto">
                         <NavbarLink to="/">Overview</NavbarLink>
                         <NavbarLink to="/courses">Courses</NavbarLink>
-                        <NavbarLink to="/coachs">Coachs</NavbarLink>
+                        {state.user?.role === Role.CUSTOMER ? (
+                            <NavbarLink to="/coachs">Coachs</NavbarLink>
+                        ) : (
+                            <NavbarLink to="/customers">Customers</NavbarLink>
+                        )}
                     </div>
 
                     <div className="relative">
@@ -132,7 +138,11 @@ const NavbarComponent: React.FC = () => {
             </header>
             <Switch>
                 <Route exact path="/" component={Overview} />
-                <Route exact path="/coachs" component={Coach} />
+                {state.user?.role === Role.CUSTOMER ? (
+                    <Route exact path="/coachs" component={Coach} />
+                ) : (
+                    <Route exact path="/customers" component={CustomerList} />
+                )}
                 <Route exact path="/courses" component={Course} />
                 <Route exact path="/profile" component={EditProfile} />
             </Switch>
