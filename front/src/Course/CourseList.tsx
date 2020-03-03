@@ -12,9 +12,11 @@ const CourseList: React.FC<{ courseList: Course[] }> = ({ courseList }) => {
     const List = (
         <section className="p-4">
             <h2 className="text-2xl text-gray-200 mb-4">My courses</h2>
-            <div className="flex flex-wrap sm:flex-no-wrap">
+            <div className="flex flex-wrap items-start">
                 {courseList.map((course: Course, index: number) => (
-                    <CourseListItem course={course} key={index} />
+                    <div className="sm:w-1/3 pr-0 sm:pr-4 mb-4" key={index}>
+                        <CourseListItem course={course} />
+                    </div>
                 ))}
             </div>
         </section>

@@ -60,56 +60,66 @@ const Coach: React.FC = () => {
     };
 
     return (
-        <div className="p-4 text-gray-200">
-            <h1 className="text-2xl text-gray-200 mb-4">Coach List</h1>
-            <h2 className="text-xl text-gray-200">My coachs</h2>
-            {userCoachList.map((coach: any, index: number) => (
-                <div className="mb-2 last:mb-0" key={index}>
-                    <div>
-                        <span className="mr-2">{coach.coach.name}</span>
-                        <a
-                            className="text-primary-400"
-                            href="`mailto:${coach.coach.email}`"
-                        >
-                            ({coach.coach.email})
-                        </a>
+        <section className="p-8">
+            <div className="p-4 bg-secondary-400 text-gray-200 sm:max-w-3xl sm:mx-auto rounded">
+                <h1 className="text-2xl text-gray-200 mb-4 font-medium">
+                    Coach List
+                </h1>
+                <h2 className="text-xl text-gray-200 font-medium mb-2">
+                    My coach list
+                </h2>
+                {userCoachList.map((coach: any, index: number) => (
+                    <div className="mb-2 last:mb-0" key={index}>
+                        <div>
+                            <span className="mr-2">{coach.coach.name}</span>
+                            <a
+                                className="text-primary-400"
+                                href="`mailto:${coach.coach.email}`"
+                            >
+                                ({coach.coach.email})
+                            </a>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
 
-            <h2 className="text-xl text-gray-200 mt-4">Pending invitations</h2>
-            {pendingCoachList.map((coach: any, index: number) => (
-                <div className="mb-2 last:mb-0" key={index}>
-                    <div>
-                        <span className="mr-2">{coach.coach.name}</span>
+                <h2 className="text-xl text-gray-200 mt-4 font-medium mb-2">
+                    Pending invitations
+                </h2>
+                {pendingCoachList.map((coach: any, index: number) => (
+                    <div className="mb-2 last:mb-0" key={index}>
+                        <div>
+                            <span className="mr-2">{coach.coach.name}</span>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
 
-            <h2 className="text-xl text-gray-200 mt-4">All</h2>
-            {allCoachList.map((coach: User, index: number) => (
-                <div
-                    className="flex justify-between mb-2 last:mb-0"
-                    key={index}
-                >
-                    <div>{coach.name}</div>
+                <h2 className="text-xl text-gray-200 mt-4 font-medium mb-2">
+                    All
+                </h2>
+                {allCoachList.map((coach: User, index: number) => (
+                    <div
+                        className="flex justify-between items-center mb-2 last:mb-0"
+                        key={index}
+                    >
+                        <div>{coach.name}</div>
 
-                    {isCoachAlreadyInvited(coach.id) ? null : (
-                        <button
-                            disabled={isLoading}
-                            onClick={() => askToBecomeCoach(coach.id)}
-                            className="bg-primary-400 px-4 py-2 rounded disabled:opacity-25 transition-all duration-300 focus:outline-none"
-                        >
-                            {isLoading ? (
-                                <i className="fas fa-circle-notch fa-spin" />
-                            ) : (
-                                "Ask him to become your coach"
-                            )}
-                        </button>
-                    )}
-                </div>
-            ))}
-        </div>
+                        {isCoachAlreadyInvited(coach.id) ? null : (
+                            <button
+                                disabled={isLoading}
+                                onClick={() => askToBecomeCoach(coach.id)}
+                                className="bg-primary-400 px-4 py-2 rounded disabled:opacity-25 transition-all duration-300 focus:outline-none"
+                            >
+                                {isLoading ? (
+                                    <i className="fas fa-circle-notch fa-spin" />
+                                ) : (
+                                    "Ask him to become your coach"
+                                )}
+                            </button>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </section>
     );
 };
 

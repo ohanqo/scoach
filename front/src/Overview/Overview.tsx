@@ -40,7 +40,7 @@ const Overview: React.FC = () => {
                     <AddReport onReportAdded={fetchUserData} />
                     <Link
                         to="/coachs"
-                        className="flex items-center text-4xl text-gray-200 justify-center bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full mb-4 sm:mb-0 sm:mr-4 transform hover:-translate-y-1 duration-300 transition-all hover:bg-primary-400"
+                        className="font-medium flex items-center text-4xl text-gray-200 justify-center bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full mb-4 sm:mb-0 sm:mr-4 transform hover:-translate-y-1 duration-300 transition-all hover:bg-primary-400"
                     >
                         Find a coach
                     </Link>

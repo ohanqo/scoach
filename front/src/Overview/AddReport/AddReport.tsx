@@ -19,7 +19,7 @@ const AddReport: React.FC<{ onReportAdded: () => void }> = ({
 
     return (
         <div className="flex flex-col bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full mb-4 sm:mb-0 sm:mr-4">
-            <h3 className="text-xl capitalize text-gray-200 mb-4">
+            <h3 className="font-medium text-xl text-gray-200 mb-4">
                 Add a new report
             </h3>
             <div className="flex bg-white items-end rounded mb-4">

@@ -98,12 +98,12 @@ const NavbarComponent: React.FC = () => {
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             className="flex items-center no-underline text-lg text-sm text-gray-300 leading-none rounded mt-4 sm:mt-0 focus:outline-none"
                         >
+                            <span>{state.user?.name}</span>
                             <img
-                                className="bg-gray-300 h-6 w-6 rounded"
-                                src=""
-                                alt=""
+                                className="bg-gray-300 h-6 w-6 rounded ml-2 mr-1"
+                                src={`${process.env.REACT_APP_BASE_URL}/${state.user?.picture}`}
+                                alt="Your profile picture"
                             />
-                            <span className="mx-2">{state.user?.name}</span>
                             <svg
                                 className="fill-current h-4 w-4"
                                 xmlns="http://www.w3.org/2000/svg"
