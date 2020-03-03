@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Report from "../Report/Report";
 import { AUTH_HTTP, httpWrapper } from "../shared/http";
 import Course from "../shared/models/Course";
+import Report from "../shared/models/Report";
 import AddReport from "./AddReport/AddReport";
 import NextCourse from "./NextCourse/NextCourse";
-import WeightChart from "./WeightChart";
+import WeightChart from "./WeightChart/WeightChart";
 
 const Overview: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,7 @@ const Overview: React.FC = () => {
             );
             setReports(reportsResponse.data);
 
-            const coursesResponse = await AUTH_HTTP.get("/courses/3");
+            const coursesResponse = await AUTH_HTTP.get("/courses/limits/3");
             setCourses(coursesResponse.data);
         }).finally(() => setIsLoading(false));
     };

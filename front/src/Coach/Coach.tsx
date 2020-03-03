@@ -9,11 +9,27 @@ const Coach: React.FC = () => {
     const [pendingCoachList, setPendingCoachList] = useState([]);
     const [allCoachList, setAllCoachList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [searchText, setSearchText] = useState("");
+    const [filteredAllCoachList, setFilteredAllCoachList] = useState([]);
+
     const { state } = useContext(StoreContext);
 
     useEffect(() => {
         fetchCoachs();
     }, []);
+
+    useEffect(() => {
+        const coachList = allCoachList.filter((c: User) =>
+            c.name.toLowerCase().includes(searchText.toLowerCase()),
+        );
+
+        setFilteredAllCoachList(coachList);
+    }, [searchText]);
+
+    useEffect(() => {
+        setFilteredAllCoachList(allCoachList);
+    }, [allCoachList]);
 
     const fetchCoachs = () => {
         httpWrapper(async () => {
@@ -93,10 +109,18 @@ const Coach: React.FC = () => {
                     </div>
                 ))}
 
-                <h2 className="text-xl text-gray-200 mt-4 font-medium mb-2">
-                    All
-                </h2>
-                {allCoachList.map((coach: User, index: number) => (
+                <div className="flex items-center mt-4 justify-between mb-2">
+                    <h2 className="text-xl text-gray-200 font-medium mr-2">
+                        All
+                    </h2>
+                    <input
+                        onChange={e => setSearchText(e.target.value)}
+                        className="bg-gray-200 px-4 py-1 leading-normal rounded text-gray-900"
+                        placeholder="Search a name…"
+                        type="text"
+                    />
+                </div>
+                {filteredAllCoachList.map((coach: User, index: number) => (
                     <div
                         className="flex justify-between items-center mb-2 last:mb-0"
                         key={index}

@@ -36,7 +36,7 @@ export class CourseController {
         return await this.courseService.findAllForUser(user);
     }
 
-    @Get(":limit")
+    @Get("/limits/:limit")
     @UseInterceptors(ClassSerializerInterceptor)
     public async indexPaginated(
         @RequestUser() user: User,

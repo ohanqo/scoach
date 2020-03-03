@@ -1,5 +1,5 @@
-import React, { ReactNode, useContext, useState } from "react";
-import { Link, Route, Switch, useHistory } from "react-router-dom";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
+import { Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import Coach from "../../Coach/Coach";
 import Course from "../../Course/Course";
 import EditProfile from "../../EditProfile/EditProfile";
@@ -12,11 +12,16 @@ const NavbarComponent: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const { state } = useContext(StoreContext);
     const history = useHistory();
+    const location = useLocation();
 
     type Props = {
         children: ReactNode;
         to: string;
     };
+
+    useEffect(() => {
+        setIsDropdownOpen(false);
+    }, [location]);
 
     const disconnect = () => {
         localStorage.removeItem(LS_TOKEN_KEY);
@@ -24,10 +29,14 @@ const NavbarComponent: React.FC = () => {
     };
 
     const NavbarLink = ({ children, to }: Props) => {
+        const isCurrentRoute = location.pathname === to;
+
         return (
             <Link
                 to={to}
-                className="no-underline text-lg block mt-4 sm:inline-block sm:mt-0 text-gray-300 mr-10 last:mr-0"
+                className={`no-underline text-lg block mt-4 sm:inline-block sm:mt-0 text-gray-300 mr-10 opacity-75 last:mr-0 ${
+                    isCurrentRoute ? "opacity-100" : ""
+                }`}
             >
                 {children}
             </Link>
@@ -101,8 +110,12 @@ const NavbarComponent: React.FC = () => {
                             <span>{state.user?.name}</span>
                             <img
                                 className="bg-gray-300 h-6 w-6 rounded ml-2 mr-1"
-                                src={`${process.env.REACT_APP_BASE_URL}/${state.user?.picture}`}
-                                alt="Your profile picture"
+                                src={
+                                    state.user?.picture
+                                        ? `${process.env.REACT_APP_BASE_URL}/${state.user?.picture}`
+                                        : "#"
+                                }
+                                alt=""
                             />
                             <svg
                                 className="fill-current h-4 w-4"

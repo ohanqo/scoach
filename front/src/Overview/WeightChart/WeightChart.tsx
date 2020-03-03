@@ -9,7 +9,7 @@ import {
     select,
 } from "d3";
 import React, { useEffect, useRef } from "react";
-import Report from "../Report/Report";
+import Report from "../../shared/models/Report";
 
 const WeightChart: React.FC<{ data: Report[] }> = ({ data = [] }) => {
     const svgRef = useRef<SVGSVGElement>(null);

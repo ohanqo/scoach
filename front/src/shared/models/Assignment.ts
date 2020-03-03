@@ -1,4 +1,4 @@
-import User from "../shared/models/User";
+import User from "./User";
 
 export enum AssignmentStatus {
     PENDING = "PENDING",
