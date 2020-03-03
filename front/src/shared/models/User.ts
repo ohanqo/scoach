@@ -8,4 +8,5 @@ export default class User {
     name = "";
     email = "";
     role: Role = Role.CUSTOMER;
+    picture = "";
 }

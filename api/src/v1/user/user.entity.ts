@@ -45,6 +45,9 @@ export class User {
     @IsEnum(Role)
     role: Role;
 
+    @Column()
+    picture: string
+
     @OneToMany(
         type => Report,
         report => report.user,

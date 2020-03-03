@@ -14,7 +14,7 @@ const CourseListItem: React.FC<{ course: Course }> = ({ course }) => {
 
             <div className="flex items-center">
                 <div className="h-10 w-10 bg-gray-400 block rounded mr-2 loading-line-animation"></div>
-                <span className="flex flex-col w-full rounded">
+                <span className="flex flex-col flex-grow rounded">
                     {course.assignment.coach.name}
                     <a
                         className="text-primary-400"

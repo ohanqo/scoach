@@ -23,3 +23,5 @@ dist
 # dotenv environment variables file
 .env
 front/src/App/index.css
+
+api/uploads/

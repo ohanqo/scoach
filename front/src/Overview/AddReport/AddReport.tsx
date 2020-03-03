@@ -24,7 +24,7 @@ const AddReport: React.FC<{ onReportAdded: () => void }> = ({
             </h3>
             <div className="flex bg-white items-end rounded mb-4">
                 <input
-                    className="px-4 py-2 rounded focus:outline-none flex-grow"
+                    className="px-4 py-2 rounded focus:outline-none w-full"
                     placeholder="64"
                     type="number"
                     onChange={e => setWeight(e.target.value)}
