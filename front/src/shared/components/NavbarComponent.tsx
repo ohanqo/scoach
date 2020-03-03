@@ -1,15 +1,26 @@
-import React, { ReactNode, useState } from "react";
-import { Link, Route, Switch } from "react-router-dom";
+import React, { ReactNode, useContext, useState } from "react";
+import { Link, Route, Switch, useHistory } from "react-router-dom";
 import Coach from "../../Coach/Coach";
 import Course from "../../Course/Course";
+import EditProfile from "../../EditProfile/EditProfile";
 import Overview from "../../Overview/Overview";
+import { LS_TOKEN_KEY } from "../constants";
+import { StoreContext } from "../store/context";
 
 const NavbarComponent: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { state } = useContext(StoreContext);
+    const history = useHistory();
 
     type Props = {
         children: ReactNode;
         to: string;
+    };
+
+    const disconnect = () => {
+        localStorage.removeItem(LS_TOKEN_KEY);
+        history.replace("/login");
     };
 
     const NavbarLink = ({ children, to }: Props) => {
@@ -22,6 +33,23 @@ const NavbarComponent: React.FC = () => {
             </Link>
         );
     };
+
+    const Dropdown = (
+        <div className="absolute right-0 mt-2 py-2 rounded-lg shadow-xl flex flex-col text-gray-800 bg-gray-200 w-full sm:w-40">
+            <Link
+                to="/profile"
+                className="z-20 hover:text-primary-400 cursor-pointer transition-all duration-300 block px-4 py-2"
+            >
+                Edit
+            </Link>
+            <span
+                onClick={() => disconnect()}
+                className="z-20 hover:text-primary-400 cursor-pointer transition-all duration-300 block px-4 py-2"
+            >
+                Disconnect
+            </span>
+        </div>
+    );
 
     return (
         <>
@@ -65,18 +93,27 @@ const NavbarComponent: React.FC = () => {
                         <NavbarLink to="/coachs">Coachs</NavbarLink>
                     </div>
 
-                    <div>
-                        <a
-                            href="#"
-                            className="flex items-center no-underline text-lg text-sm text-gray-300 leading-none rounded mt-4 sm:mt-0"
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="flex items-center no-underline text-lg text-sm text-gray-300 leading-none rounded mt-4 sm:mt-0 focus:outline-none"
                         >
                             <img
-                                className="bg-gray-300 h-6 w-6 rounded-full"
+                                className="bg-gray-300 h-6 w-6 rounded"
                                 src=""
                                 alt=""
                             />
-                            <span className="ml-2">Profile</span>
-                        </a>
+                            <span className="mx-2">{state.user?.name}</span>
+                            <svg
+                                className="fill-current h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                            >
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                            </svg>
+                        </button>
+
+                        {isDropdownOpen ? Dropdown : null}
                     </div>
                 </div>
             </header>
@@ -84,6 +121,7 @@ const NavbarComponent: React.FC = () => {
                 <Route exact path="/" component={Overview} />
                 <Route exact path="/coachs" component={Coach} />
                 <Route exact path="/courses" component={Course} />
+                <Route exact path="/profile" component={EditProfile} />
             </Switch>
         </>
     );

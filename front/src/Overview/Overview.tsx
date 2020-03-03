@@ -36,13 +36,15 @@ const Overview: React.FC = () => {
                 <NextCourse data={courses} isLoading={isLoading} />
             </div>
             <div className="flex flex-wrap sm:flex-no-wrap">
-                <AddReport onReportAdded={fetchUserData} />
-                <Link
-                    to="/coachs"
-                    className="flex items-center text-4xl text-gray-200 justify-center bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full sm:w-1/3 mb-4 sm:mb-0 sm:mr-4 transform hover:-translate-y-1 duration-300"
-                >
-                    Find a coach
-                </Link>
+                <div className="flex flex-wrap sm:flex-no-wrap w-full sm:w-2/3">
+                    <AddReport onReportAdded={fetchUserData} />
+                    <Link
+                        to="/coachs"
+                        className="flex items-center text-4xl text-gray-200 justify-center bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full mb-4 sm:mb-0 sm:mr-4 transform hover:-translate-y-1 duration-300 transition-all hover:bg-primary-400"
+                    >
+                        Find a coach
+                    </Link>
+                </div>
                 <div className="flex flex-col bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full sm:w-1/3"></div>
             </div>
         </main>

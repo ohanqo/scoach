@@ -18,7 +18,7 @@ const AddReport: React.FC<{ onReportAdded: () => void }> = ({
     };
 
     return (
-        <div className="flex flex-col bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full sm:w-1/3 mb-4 sm:mb-0 sm:mr-4">
+        <div className="flex flex-col bg-secondary-400 px-6 py-4 overflow-hidden rounded w-full mb-4 sm:mb-0 sm:mr-4">
             <h3 className="text-xl capitalize text-gray-200 mb-4">
                 Add a new report
             </h3>
@@ -30,7 +30,7 @@ const AddReport: React.FC<{ onReportAdded: () => void }> = ({
                     onChange={e => setWeight(e.target.value)}
                 />
 
-                <span className="text-sm mx-2">kg</span>
+                <span className="text-sm text-gray-700 mx-2">kg</span>
             </div>
             <button
                 disabled={isLoading}
