@@ -17,7 +17,7 @@ import { RolesGuard } from "../guard/roles.guard";
 import { RequestUser } from "../user/user.decorator";
 import { Role, User } from "../user/user.entity";
 import { UserService } from "../user/user.service";
-import { Assignment } from "./assignment.entity";
+import { Assignment, AssignmentStatus } from "./assignment.entity";
 import { AssignmentService } from "./assignment.service";
 import AnswerCoachingRequest from "./dto/answer-coaching.request";
 import CoachingRequest from "./dto/coaching.request";
@@ -43,9 +43,24 @@ export class AssignmentController {
         let response: Assignment[] = [];
 
         if (user.isCustomer()) {
-            response = await this.assignmentService.findAllCoach(user.id);
+            response = await this.assignmentService.findAllCoach(user.id, AssignmentStatus.CONFIRMED);
         } else {
-            response = await this.assignmentService.findAllCustomer(user.id);
+            response = await this.assignmentService.findAllCustomer(user.id, AssignmentStatus.CONFIRMED);
+        }
+
+        return response;
+    }
+
+    @Get("pending")
+    public async getPendingList(
+        @RequestUser() user: User,
+    ): Promise<Assignment[]> {
+        let response: Assignment[] = [];
+
+        if (user.isCustomer()) {
+            response = await this.assignmentService.findAllCoach(user.id, AssignmentStatus.PENDING);
+        } else {
+            response = await this.assignmentService.findAllCustomer(user.id, AssignmentStatus.PENDING);
         }
 
         return response;

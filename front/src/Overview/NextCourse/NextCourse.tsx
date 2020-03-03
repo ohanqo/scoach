@@ -1,5 +1,5 @@
 import React from "react";
-import Course from "../../Course/Course";
+import Course from "../../shared/models/Course";
 import NextCourseList from "./NextCourseList";
 import NextCourseLoading from "./NextCourseLoading";
 

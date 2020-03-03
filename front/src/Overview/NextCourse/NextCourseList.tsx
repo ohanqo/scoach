@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Course from "../../Course/Course";
+import Course from "../../shared/models/Course";
 import NextCourseItem from "./NextCourseListItem";
 
 const NextCourseList: React.FC<{ courseList: Course[] }> = ({

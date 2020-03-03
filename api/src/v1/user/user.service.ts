@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from "./user.entity";
+import { Role, User } from "./user.entity";
 
 @Injectable()
 export class UserService {
@@ -23,6 +23,10 @@ export class UserService {
 
     public async findAll(): Promise<User[]> {
         return await this.userRepository.find();
+    }
+
+    public async findAllCoach(): Promise<User[]> {
+        return await this.userRepository.find({ where: { role: Role.COACH } });
     }
 
     public async findOneByEmail(email: string): Promise<User | undefined> {

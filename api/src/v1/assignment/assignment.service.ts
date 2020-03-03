@@ -19,24 +19,24 @@ export class AssignmentService {
         });
     }
 
-    public async findAllCoach(customerId: number): Promise<Assignment[]> {
+    public async findAllCoach(customerId: number, status: AssignmentStatus): Promise<Assignment[]> {
         return await this.assignmentRepository
             .createQueryBuilder("assignment")
             .leftJoinAndSelect("assignment.coach", "coach")
             .where("assignment.customerId = :customerId", { customerId })
             .andWhere("assignment.status = :status", {
-                status: AssignmentStatus.CONFIRMED,
+                status: status,
             })
             .getMany();
     }
 
-    public async findAllCustomer(coachId: number): Promise<Assignment[]> {
+    public async findAllCustomer(coachId: number, status: AssignmentStatus): Promise<Assignment[]> {
         return await this.assignmentRepository
             .createQueryBuilder("assignment")
             .leftJoinAndSelect("assignment.customer", "customer")
             .where("assignment.coachId = :coachId", { coachId })
             .andWhere("assignment.status = :status", {
-                status: AssignmentStatus.CONFIRMED,
+                status: status,
             })
             .getMany();
     }

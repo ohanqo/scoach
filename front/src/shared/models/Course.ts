@@ -1,4 +1,4 @@
-import { Assignment } from "../Assignment/Assignment";
+import { Assignment } from "../../Assignment/Assignment";
 
 export default class Course {
     public id: number = 0;

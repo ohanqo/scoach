@@ -19,4 +19,10 @@ export class UserController {
     public index(): Promise<User[]> {
         return this.userService.findAll();
     }
+
+    @Get("/coachs")
+    @UseInterceptors(ClassSerializerInterceptor)
+    public indexCoach(): Promise<User[]> {
+        return this.userService.findAllCoach();
+    }
 }

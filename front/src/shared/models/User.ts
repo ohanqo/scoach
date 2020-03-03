@@ -5,6 +5,7 @@ export enum Role {
 
 export default class User {
     id = 0;
+    name = "";
     email = "";
     role: Role = Role.CUSTOMER;
 }

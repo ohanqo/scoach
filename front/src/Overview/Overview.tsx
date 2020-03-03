@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Course from "../Course/Course";
 import Report from "../Report/Report";
 import { AUTH_HTTP, httpWrapper } from "../shared/http";
+import Course from "../shared/models/Course";
 import AddReport from "./AddReport/AddReport";
 import NextCourse from "./NextCourse/NextCourse";
 import WeightChart from "./WeightChart";

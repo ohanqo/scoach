@@ -1,5 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import { Link, Route, Switch } from "react-router-dom";
+import Coach from "../../Coach/Coach";
+import Course from "../../Course/Course";
 import Overview from "../../Overview/Overview";
 
 const NavbarComponent: React.FC = () => {
@@ -24,7 +26,7 @@ const NavbarComponent: React.FC = () => {
     return (
         <>
             <header className="flex flex-wrap items-center justify-between text-white mx-5 my-2">
-                <div className="flex items-center">
+                <Link to="/" className="flex items-center">
                     <img
                         className="h-10 block"
                         src="/assets/images/logo.svg"
@@ -34,7 +36,7 @@ const NavbarComponent: React.FC = () => {
                     <span className="block font-bold text-xl tracking-wide ml-2">
                         Scoach
                     </span>
-                </div>
+                </Link>
 
                 <div className="block sm:hidden">
                     <button
@@ -79,9 +81,9 @@ const NavbarComponent: React.FC = () => {
                 </div>
             </header>
             <Switch>
-                <Route path="/">
-                    <Overview />
-                </Route>
+                <Route exact path="/" component={Overview} />
+                <Route exact path="/coachs" component={Coach} />
+                <Route exact path="/courses" component={Course} />
             </Switch>
         </>
     );
