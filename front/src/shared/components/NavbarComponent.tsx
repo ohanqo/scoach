@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import Overview from "../../Overview/Overview";
 
 const NavbarComponent: React.FC = () => {
@@ -7,16 +7,17 @@ const NavbarComponent: React.FC = () => {
 
     type Props = {
         children: ReactNode;
+        to: string;
     };
 
-    const NavbarLink = ({ children }: Props) => {
+    const NavbarLink = ({ children, to }: Props) => {
         return (
-            <a
-                href="#responsive-header"
+            <Link
+                to={to}
                 className="no-underline text-lg block mt-4 sm:inline-block sm:mt-0 text-gray-300 mr-10 last:mr-0"
             >
                 {children}
-            </a>
+            </Link>
         );
     };
 
@@ -57,9 +58,9 @@ const NavbarComponent: React.FC = () => {
                     }`}
                 >
                     <div className="text-sm sm:mx-auto">
-                        <NavbarLink>Overview</NavbarLink>
-                        <NavbarLink>Courses</NavbarLink>
-                        <NavbarLink>Nutrition</NavbarLink>
+                        <NavbarLink to="/">Overview</NavbarLink>
+                        <NavbarLink to="/courses">Courses</NavbarLink>
+                        <NavbarLink to="/coachs">Coachs</NavbarLink>
                     </div>
 
                     <div>

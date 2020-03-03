@@ -46,9 +46,7 @@
         opacity: 0.5;
     }
 }
-/* .loading-line {
-    height: 20px;
-} */
+
 .loading-line-animation {
     animation: loading 2s infinite alternate;
 }

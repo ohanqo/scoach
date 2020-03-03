@@ -16,6 +16,10 @@ const WeightChart: React.FC<{ data: Report[] }> = ({ data = [] }) => {
 
     useEffect(() => {
         if (data.length > 1) {
+            if (svgRef.current) {
+                svgRef.current.innerHTML = "";
+            }
+
             const chartWrapper = document.querySelector("#chart")!;
             const style = getComputedStyle(chartWrapper);
             const chartWidthAndPadding = parseInt(
