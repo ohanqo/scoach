@@ -50,6 +50,12 @@ Start the front
 $ yarn start
 ```
 
+You can find API documentation at the following URL:
+
+http://localhost:3000/api/v1/documentation
+
+<br />
+
 You can connect as customer using following credentials:
 <br/>
 email: _customer@gmail.com_, password: _password_
