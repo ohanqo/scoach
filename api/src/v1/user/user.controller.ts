@@ -3,6 +3,7 @@ import {
     ClassSerializerInterceptor,
     Controller,
     Get,
+    Param,
     Put,
     UploadedFile,
     UseGuards,
@@ -14,7 +15,7 @@ import { RequestUser } from "./user.decorator";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 
-@Controller("users/")
+@Controller("users")
 @UseGuards(AuthGuard("jwt"))
 export class UserController {
     constructor(private readonly userService: UserService) {}
@@ -25,10 +26,15 @@ export class UserController {
         return this.userService.findAll();
     }
 
-    @Get("/coachs")
+    @Get("coachs")
     @UseInterceptors(ClassSerializerInterceptor)
     public indexCoach(): Promise<User[]> {
         return this.userService.findAllCoach();
+    }
+
+    @Get(":id")
+    public async show(@Param("id") id: number): Promise<User | undefined> {
+        return this.userService.findOneById(id);
     }
 
     @Put()

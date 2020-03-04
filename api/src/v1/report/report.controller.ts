@@ -13,19 +13,27 @@ import {
     ValidationPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { RoleGuard } from "../guard/role.decorator";
+import { RolesGuard } from "../guard/roles.guard";
 import { RequestUser } from "../user/user.decorator";
-import { User } from "../user/user.entity";
+import { Role, User } from "../user/user.entity";
 import { Report } from "./report.entity";
 import { ReportService } from "./report.service";
 
-@Controller("reports/")
-@UseGuards(AuthGuard("jwt"))
+@Controller("reports")
+@UseGuards(AuthGuard("jwt"), RolesGuard)
 export class ReportController {
     constructor(private readonly reportService: ReportService) {}
 
     @Get()
     public async index() {
         return await this.reportService.findAll();
+    }
+
+    @Get("user/:userId")
+    @RoleGuard(Role.COACH)
+    public async reports(@Param("userId") userId: number): Promise<Report[]> {
+        return await this.reportService.findAllForUser(userId);
     }
 
     @Post()

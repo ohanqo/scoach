@@ -14,6 +14,12 @@ export class ReportService {
         return await this.reportRepository.find();
     }
 
+    public async findAllForUser(userId: number): Promise<Report[]> {
+        return await this.reportRepository.find({
+            where: { user: { id: userId } },
+        });
+    }
+
     public async save(report: Report): Promise<Report> {
         return await this.reportRepository.save(report);
     }

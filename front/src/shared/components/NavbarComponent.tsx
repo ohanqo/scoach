@@ -2,6 +2,7 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import Coach from "../../Coach/Coach";
 import Course from "../../Course/Course";
+import CustomerDetail from "../../Customer/CustomerDetail/CustomerDetail";
 import CustomerList from "../../Customer/CustomerList/CustomerList";
 import EditProfile from "../../EditProfile/EditProfile";
 import Overview from "../../Overview/Overview";
@@ -141,7 +142,18 @@ const NavbarComponent: React.FC = () => {
                 {state.user?.role === Role.CUSTOMER ? (
                     <Route exact path="/coachs" component={Coach} />
                 ) : (
-                    <Route exact path="/customers" component={CustomerList} />
+                    <>
+                        <Route
+                            exact
+                            path="/customers"
+                            component={CustomerList}
+                        />
+                        <Route
+                            exact
+                            path="/customers/:id"
+                            component={CustomerDetail}
+                        />
+                    </>
                 )}
                 <Route exact path="/courses" component={Course} />
                 <Route exact path="/profile" component={EditProfile} />

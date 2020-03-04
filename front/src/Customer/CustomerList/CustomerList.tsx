@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AUTH_HTTP, httpWrapper } from "../../shared/http";
 import { Assignment, AssignmentStatus } from "../../shared/models/Assignment";
 import { StoreContext } from "../../shared/store/context";
@@ -43,17 +44,15 @@ const CustomerList: React.FC = () => {
                 </h2>
                 {confirmedCustomerList.map(
                     (assignment: Assignment, index: number) => (
-                        <div className="mb-2 last:mb-0" key={index}>
+                        <Link
+                            to={`/customers/${assignment.customer.id}`}
+                            className="mb-2 last:mb-0"
+                            key={index}
+                        >
                             <div>
                                 <span className="mr-2">
                                     {assignment.customer.name}
                                 </span>
-                                <a
-                                    className="text-primary-400 mr-2"
-                                    href="`mailto:${customer.customer.email}`"
-                                >
-                                    ({assignment.customer.email})
-                                </a>
                                 <button
                                     onClick={() =>
                                         updateAssignment(
@@ -65,7 +64,7 @@ const CustomerList: React.FC = () => {
                                     <i className="fas fa-trash"></i>
                                 </button>
                             </div>
-                        </div>
+                        </Link>
                     ),
                 )}
 

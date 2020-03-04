@@ -5,7 +5,7 @@ import Course from "../shared/models/Course";
 import Report from "../shared/models/Report";
 import AddReport from "./AddReport/AddReport";
 import NextCourse from "./NextCourse/NextCourse";
-import WeightChart from "./WeightChart/WeightChart";
+import WeightChart from "../shared/components/WeightChart";
 
 const Overview: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
