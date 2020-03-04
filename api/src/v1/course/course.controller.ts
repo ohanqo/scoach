@@ -2,6 +2,7 @@ import {
     Body,
     ClassSerializerInterceptor,
     Controller,
+    Delete,
     Get,
     HttpCode,
     HttpException,
@@ -62,6 +63,13 @@ export class CourseController {
         };
 
         return await this.courseService.save(course);
+    }
+
+    @Delete(":id")
+    @RoleGuard(Role.COACH)
+    @HttpCode(HttpStatus.NO_CONTENT)
+    public async delete(@Param("id") id: number) {
+        return await this.courseService.delete(id);
     }
 
     private async findAssignment(

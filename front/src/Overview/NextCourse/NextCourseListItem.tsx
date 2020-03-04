@@ -8,8 +8,12 @@ const NextCourseItem: React.FC<{ course: Course }> = ({ course }) => {
         <div className="flex items-center mb-2 last:mb-4 text-gray-200 rounded">
             <img
                 className="h-12 w-12 block rounded bg-gray-600 mr-2"
-                src="https://source.unsplash.com/random/400x400"
-                alt="Coach profile picture"
+                src={
+                    assignment.coach.picture
+                        ? `${process.env.REACT_APP_BASE_URL}/${assignment.coach.picture}`
+                        : "#"
+                }
+                alt=""
             />
 
             <div className="flex flex-col overflow-hidden">

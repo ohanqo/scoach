@@ -36,4 +36,8 @@ export class CourseService {
     public async save(course: Course): Promise<Course> {
         return await this.courseRepository.save(course);
     }
+
+    public async delete(courseId: number) {
+        return await this.courseRepository.delete(courseId)
+    }
 }

@@ -139,6 +139,8 @@ const NavbarComponent: React.FC = () => {
             </header>
             <Switch>
                 <Route exact path="/" component={Overview} />
+                <Route exact path="/courses" component={Course} />
+                <Route exact path="/profile" component={EditProfile} />
                 {state.user?.role === Role.CUSTOMER ? (
                     <Route exact path="/coachs" component={Coach} />
                 ) : (
@@ -155,8 +157,6 @@ const NavbarComponent: React.FC = () => {
                         />
                     </>
                 )}
-                <Route exact path="/courses" component={Course} />
-                <Route exact path="/profile" component={EditProfile} />
             </Switch>
         </>
     );

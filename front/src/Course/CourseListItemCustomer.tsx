@@ -1,7 +1,7 @@
 import React from "react";
 import Course from "../shared/models/Course";
 
-const CourseListItem: React.FC<{ course: Course }> = ({ course }) => {
+const CourseListItemCustomer: React.FC<{ course: Course }> = ({ course }) => {
     return (
         <div className="flex flex-col bg-secondary-400 rounded p-4 w-full text-gray-200">
             <h3 className="text-lg mb-4 rounded w-full font-medium">
@@ -13,7 +13,11 @@ const CourseListItem: React.FC<{ course: Course }> = ({ course }) => {
             <hr className="h-2 w-full my-2 border-0" />
 
             <div className="flex items-center">
-                <div className="h-10 w-10 bg-gray-400 block rounded mr-2 loading-line-animation"></div>
+                <img
+                    src={course.assignment.coach.picture}
+                    alt=""
+                    className="h-10 w-10 bg-gray-400 block rounded mr-2 loading-line-animation"
+                />
                 <span className="flex flex-col flex-grow rounded">
                     {course.assignment.coach.name}
                     <a
@@ -28,4 +32,4 @@ const CourseListItem: React.FC<{ course: Course }> = ({ course }) => {
     );
 };
 
-export default CourseListItem;
+export default CourseListItemCustomer;
