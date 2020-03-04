@@ -12,6 +12,7 @@ import {
     UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { RoleGuard } from "../guard/role.decorator";
 import { RolesGuard } from "../guard/roles.guard";
 import { RequestUser } from "../user/user.decorator";
@@ -22,6 +23,7 @@ import { AssignmentService } from "./assignment.service";
 import AnswerCoachingRequest from "./dto/answer-coaching.request";
 import CoachingRequest from "./dto/coaching.request";
 
+@ApiTags("Assignment")
 @Controller("assignments")
 @UseGuards(AuthGuard("jwt"), RolesGuard)
 export class AssignmentController {
@@ -32,35 +34,56 @@ export class AssignmentController {
     ) {}
 
     @Get()
+    @ApiOperation({
+        summary: "Return assignment list for connected user.",
+    })
     public async index(@RequestUser() user: User): Promise<Assignment[]> {
         return await this.assignmentService.findAllForUser(user);
     }
 
     @Get("confirmed")
-    public async getCoachList(
+    @ApiOperation({
+        summary: "Return confirmed assignment list.",
+    })
+    public async getConfirmedList(
         @RequestUser() user: User,
     ): Promise<Assignment[]> {
         let response: Assignment[] = [];
 
         if (user.isCustomer()) {
-            response = await this.assignmentService.findAllCoach(user.id, AssignmentStatus.CONFIRMED);
+            response = await this.assignmentService.findAllCoach(
+                user.id,
+                AssignmentStatus.CONFIRMED,
+            );
         } else {
-            response = await this.assignmentService.findAllCustomer(user.id, AssignmentStatus.CONFIRMED);
+            response = await this.assignmentService.findAllCustomer(
+                user.id,
+                AssignmentStatus.CONFIRMED,
+            );
         }
 
         return response;
     }
 
     @Get("pending")
+    @ApiOperation({
+        summary: "Return pending assignment list.",
+    })
     public async getPendingList(
         @RequestUser() user: User,
     ): Promise<Assignment[]> {
         let response: Assignment[] = [];
 
         if (user.isCustomer()) {
-            response = await this.assignmentService.findAllCoach(user.id, AssignmentStatus.PENDING);
+            response = await this.assignmentService.findAllCoach(
+                user.id,
+                AssignmentStatus.PENDING,
+            );
         } else {
-            response = await this.assignmentService.findAllCustomer(user.id, AssignmentStatus.PENDING);
+            response = await this.assignmentService.findAllCustomer(
+                user.id,
+                AssignmentStatus.PENDING,
+            );
         }
 
         return response;
@@ -69,6 +92,10 @@ export class AssignmentController {
     @Post()
     @RoleGuard(Role.CUSTOMER)
     @HttpCode(HttpStatus.CREATED)
+    @ApiOperation({
+        summary:
+            "[CUSTOMER] Create an assignment / send mail to specified coach.",
+    })
     public async create(
         @RequestUser() customer: User,
         @Body() { message, coachId }: CoachingRequest,
@@ -82,6 +109,10 @@ export class AssignmentController {
 
     @Patch(":assignmentId")
     @RoleGuard(Role.COACH)
+    @ApiOperation({
+        summary:
+            "[COACH] Update a status for a specified assignment. A coach response to a user assignment.",
+    })
     public async update(
         @Param("assignmentId") assignmentId: number,
         @Body() { answer }: AnswerCoachingRequest,

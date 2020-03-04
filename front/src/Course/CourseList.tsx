@@ -11,7 +11,7 @@ import CourseListItemCustomer from "./CourseListItemCustomer";
 
 const CourseList: React.FC<{ courseList: Course[] }> = ({ courseList }) => {
     const { state } = useContext(StoreContext);
-    const [customerList, setCustomerList] = useState([]);
+    const [customerList, setCustomerList] = useState<Assignment[]>([]);
 
     const [selectedCustomerId, setSelectedCustomerId] = useState(0);
     const [title, setTitle] = useState("");
@@ -22,13 +22,16 @@ const CourseList: React.FC<{ courseList: Course[] }> = ({ courseList }) => {
         if (state.user?.role === Role.COACH) {
             httpWrapper(async () => {
                 const response = await AUTH_HTTP.get("/assignments/confirmed");
-                setCustomerList(response.data);
+                const assignmentList = response.data;
+                setCustomerList(assignmentList);
+                setSelectedCustomerId(assignmentList[0].id ?? 0);
             });
         }
     }, [state]);
 
     const addCourse = () => {
         httpWrapper(async () => {
+            console.log(selectedCustomerId);
             const data = {
                 customerId: selectedCustomerId,
                 title,
@@ -79,11 +82,12 @@ const CourseList: React.FC<{ courseList: Course[] }> = ({ courseList }) => {
                         <h2 className="text-2xl font-medium">Add a course</h2>
 
                         <select
-                            onChange={e =>
+                            onChange={e => {
                                 setSelectedCustomerId(
                                     parseInt(e.target.value, 10),
-                                )
-                            }
+                                );
+                            }}
+                            value={customerList[0].id ?? 0}
                             name="customer"
                             className="my-4"
                         >
@@ -125,7 +129,13 @@ const CourseList: React.FC<{ courseList: Course[] }> = ({ courseList }) => {
         </section>
     );
 
-    return courseList.length === 0 ? Empty : List;
+    const CoachCourseList = List;
+
+    const CustomerCourseList = courseList.length === 0 ? Empty : List;
+
+    return state.user?.role === Role.COACH
+        ? CoachCourseList
+        : CustomerCourseList;
 };
 
 export default CourseList;

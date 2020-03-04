@@ -11,6 +11,7 @@ import {
     ValidationPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { User } from "src/v1/user/user.entity";
 import { UserService } from "src/v1/user/user.service";
 import { RequestUser } from "../user/user.decorator";
@@ -18,6 +19,7 @@ import { AuthService } from "./auth.service";
 import LoginRequestDTO from "./dto/login.request";
 import LoginResponseDTO from "./dto/login.response";
 
+@ApiTags("Auth")
 @Controller()
 export class AuthController {
     constructor(
@@ -27,6 +29,10 @@ export class AuthController {
 
     @Post("/login")
     @UseInterceptors(ClassSerializerInterceptor)
+    @ApiOperation({
+        summary:
+            "Log user with his email and password. Returns the user with his jwt token.",
+    })
     async login(
         @Body(new ValidationPipe({ transform: true }))
         { email, password }: LoginRequestDTO,
@@ -45,6 +51,9 @@ export class AuthController {
 
     @Post("/register")
     @UseInterceptors(ClassSerializerInterceptor)
+    @ApiOperation({
+        summary: "Register a user with email and password.",
+    })
     async register(@Body(new ValidationPipe({ transform: true })) user: User) {
         const hashedPassword = await this.authService.hashPassword(
             user.password,
@@ -57,6 +66,10 @@ export class AuthController {
     @Get("/me")
     @UseGuards(AuthGuard("jwt"))
     @UseInterceptors(ClassSerializerInterceptor)
+    @ApiOperation({
+        summary:
+            "Return the current user currently connected via his jwt token.",
+    })
     async me(@RequestUser() user: User) {
         return user;
     }

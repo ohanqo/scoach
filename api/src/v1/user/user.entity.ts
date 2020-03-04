@@ -11,7 +11,6 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { Assignment } from "../assignment/assignment.entity";
-import Course from "../course/course.entity";
 
 export enum Role {
     CUSTOMER = "CUSTOMER",
@@ -45,8 +44,8 @@ export class User {
     @IsEnum(Role)
     role: Role;
 
-    @Column()
-    picture: string
+    @Column({ nullable: true })
+    picture: string;
 
     @OneToMany(
         type => Report,
