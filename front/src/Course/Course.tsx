@@ -16,12 +16,12 @@ const Course: React.FC = () => {
             }).finally(() => setIsLoading(false));
         };
 
-        pubsub.on("delete-course", fetchData);
+        pubsub.on("refresh-courses", fetchData);
 
         fetchData();
 
         return () => {
-            pubsub.off("delete-course", fetchData);
+            pubsub.off("refresh-courses", fetchData);
         };
     }, []);
 

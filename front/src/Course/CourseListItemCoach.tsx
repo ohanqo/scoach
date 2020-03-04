@@ -7,7 +7,7 @@ const CourseListItemCoach: React.FC<{ course: Course }> = ({ course }) => {
     const deleteCourse = () => {
         httpWrapper(async () => {
             await AUTH_HTTP.delete(`/courses/${course.id}`);
-            pubsub.emit("delete-course");
+            pubsub.emit("refresh-courses");
         });
     };
 
